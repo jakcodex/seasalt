@@ -1,0 +1,128 @@
+<DOCTYPE !html>
+    <html>
+        <head>
+            <title>SeaSalt Example</title>
+            <style>
+                body {
+                    background-color: #111;
+                    color: #fff;
+                    font-family: calibri;
+                }
+
+                input:not(.nostyle) {
+                    width: 400px;
+                    padding: 5px;
+                    background-color: #444;
+                    color: #fff;
+                    border: solid 1px #2496ff;
+                }
+
+                input[type="submit"] {
+                    width: 150px !important;
+                }
+
+                input[type="submit"]:hover {
+                    background-color: #333;
+                    cursor: pointer;
+                }
+
+                input[type="submit"]:active {
+                    background-color: #111;
+                }
+
+                select {
+                    width: 305px;
+                    padding: 4px;
+                    background-color: #444;
+                    color: #fff;
+                    border: solid 1px #2496ff;
+                }
+
+                textarea {
+                    padding: 5px;
+                    background-color: #444;
+                    color: #fff;
+                    border: solid 1px #2496ff;
+                    width: 800px;
+                    height: 200px;
+                }
+
+                a {
+                    color: #2496ff;
+                    font-weight: bold;
+                    text-decoration: none;
+                    letter-spacing: 1px;
+                }
+            </style>
+        </head>
+    <body>
+
+    SeaSalt is a simple Javascript class for encrypting and decrypting using Libsodium and AEAD.
+
+    <br><br><strong>Enter your passphrase</strong>
+    <br><input type="text" name="passphrase" class="ignore">  <input type="submit" name="generatePassphrase" value="Generate Random">
+
+    <br><br><strong>Enter text to encrypt</strong>
+    <br><input type="text" name="encrypt"> <input type="submit" name="encrypt" value="Encrypt">
+
+    <br><br><strong>Enter text to decrypt</strong>
+    <br><input type="text" name="decrypt"> <input type="submit" name="decrypt" value="Decrypt">
+
+    <br><br><strong>Result</strong>
+    <br><textarea id="results" spellcheck="false"></textarea>
+
+    <br><br><strong>Code</strong>
+    <br><textarea id="code" spellcheck="false"></textarea>
+
+    <script src="vendor/jquery-3.2.1.min.js"></script>
+    <script src="vendor/sha256.js"></script>
+    <script src="vendor/sodium.min.js"></script>
+    <script src="src/seasalt.js"></script>
+    <script language="JavaScript">
+        let seasalt = new SeaSalt;
+
+        $('input[name="generatePassphrase"]').click(function() {
+
+            let key = seasalt.aead.xchacha.key();
+
+            $('input[name="passphrase"]').val(key);
+
+        });
+
+        $('input[type="submit"][name!="generatePassphrase"]').click(function() {
+
+            let cipher = 'xchacha';
+            let method = $(this).attr('name');
+            let string = $('input[name="' + method + '"]').val();
+            let passphrase = $('input[name="passphrase"]').val();
+
+            if ( passphrase.length > 0 ) {
+                let result = ( method === 'encrypt' ) ? seasalt.aead_encrypt(string, passphrase, cipher) : seasalt.aead_decrypt(string, passphrase, cipher);
+                $('textarea#results').val(result);
+
+                //  example code
+                let original = string;
+                let final = result;
+                if ( method === 'decrypt' ) {
+                    final = string;
+                    original = result;
+                }
+
+                let example = 'let seasalt = new SeaSalt;\n';
+                example += 'let original = \'' + original + '\';\n';
+                example += 'let ciphertext = seasalt.aead_encrypt(\n\toriginal, \n\t\'' + passphrase + '\', \n\t\'' + cipher + '\'\n);\n';
+                example += 'let decrypted = seasalt.aead_decrypt(\n\tciphertext, \n\t\'' + passphrase + '\', \n\t\'' + cipher + '\'\n);\n';
+                $('textarea#code').val(example);
+
+            } else {
+                $('textarea#results').val("You must provide a passphrase");
+                $('textarea#code').val('');
+            }
+
+        });
+
+    </script>
+
+    </body>
+    </html>
+</DOCTYPE>
