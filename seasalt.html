@@ -10,7 +10,7 @@
                 }
 
                 input:not(.nostyle) {
-                    width: 400px;
+                    width: 500px;
                     padding: 5px;
                     background-color: #444;
                     color: #fff;
@@ -38,6 +38,10 @@
                     border: solid 1px #2496ff;
                 }
 
+                select.pwhash {
+                    width: 150px !important;
+                }
+
                 textarea {
                     padding: 5px;
                     background-color: #444;
@@ -47,79 +51,278 @@
                     height: 200px;
                 }
 
+                textarea#code {
+                    height: 300px !important;
+                }
+
                 a {
                     color: #2496ff;
-                    font-weight: bold;
                     text-decoration: none;
                     letter-spacing: 1px;
                 }
+
+
+                h1, h2, h3, h4, h5 {
+                    color: aqua;
+                }
+
+                div.menu {
+                    position: relative;
+                }
+
+                div.menu div {
+                    float: left;
+                    padding-left: 15px;
+                    padding-right: 15px;
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+                    margin-left: 5px;
+                    margin-right: 5px;
+                    border: #fff solid 1px;
+                    background-color: #0a153e;
+                }
+
+                div.menu div:hover {
+                    background-color: #222;
+                }
+
+                div.menu div:active {
+                    background-color: #0a1557;
+                }
+
+                div.menu div:first-child {
+                    margin-left: 0 !important;
+                    clear: left;
+                }
+
+                div.menu div:last-child {
+                    margin-right: 0 !important;
+                    clear: right;
+                }
+
+                div.display div:not(:first-child) {
+                    display: none;
+                }
+
             </style>
         </head>
     <body>
 
     SeaSalt is a simple Javascript class for encrypting and decrypting using Libsodium and AEAD.
 
-    <br><br><strong>Enter your passphrase</strong>
-    <br><input type="text" name="passphrase" class="ignore">  <input type="submit" name="generatePassphrase" value="Generate Random">
+    <br><br>You can checkout the project on <a href="https://github.com/jakcodex/seasalt" target="_blank">Github</a>.
 
-    <br><br><strong>Enter text to encrypt</strong>
-    <br><input type="text" name="encrypt"> <input type="submit" name="encrypt" value="Encrypt">
+    <br><br>
 
-    <br><br><strong>Enter text to decrypt</strong>
-    <br><input type="text" name="decrypt"> <input type="submit" name="decrypt" value="Decrypt">
+    <div class="menu">
+        <div><a href="#" name="aead">AEAD Two-Way Encryption</a></div>
+        <div><a href="#" name="pwhash">Password Hashing</a></div>
+        <div><a href="#" name="hash">String Hashing</a></div>
+    </div>
 
-    <br><br><strong>Result</strong>
-    <br><textarea id="results" spellcheck="false"></textarea>
+    <br><br>
 
-    <br><br><strong>Code</strong>
-    <br><textarea id="code" spellcheck="false"></textarea>
+    <div style="float: right;">
+        <strong>Result</strong>
+        <br><textarea id="results" spellcheck="false"></textarea>
+
+        <br><br><strong>Code</strong>
+        <br><textarea id="code" spellcheck="false"></textarea>
+    </div>
+
+    <div class="display">
+
+        <div class="aead">
+            <h2>AEAD Two-Way Encryption</h2>
+
+            <strong>Enter your passphrase</strong>
+            <br><input type="text" name="passphrase" class="ignore">
+
+            <br><br><strong>Enter text to encrypt</strong>
+            <br><input type="text" name="encrypt">
+
+            <br><br><strong>Enter text to decrypt</strong>
+            <br><input type="text" name="decrypt">
+
+            <br><br><input type="submit" name="generatePassphrase" value="Randomize Key">
+                <input type="submit" name="encrypt" value="Encrypt">
+                <input type="submit" name="decrypt" value="Decrypt">
+
+        </div>
+
+        <div class="pwhash">
+            <h2>Password Hashing</h2>
+
+            <strong>Hashing Algorithm</strong>
+            <br><select name="algorithm">
+                <option value="argon2">Argon2</option>
+                <option value="scrypt">SCrypt</option>
+            </select>
+
+            <br><br><strong>Security Level</strong>
+            <br><select name="security">
+                <option value="light">Light</option>
+                <option value="normal" selected>Normal</option>
+                <option value="moderate">Moderate</option>
+                <option value="high">High</option>
+            </select>
+
+            <br><br><strong>Password to hash</strong>
+            <br><input type="text" name="password">
+
+            <br><br><strong>Password Hash</strong>
+            <br><input type="text" name="hash">
+
+            <br><br><input type="submit" name="generate" value="Generate Hash"> <input type="submit" name="verify" value="Verify Password">
+
+        </div>
+
+        <div class="hash">
+            <h2>String Hashing</h2>
+
+            <strong>Select Algorithm</strong>
+            <br><select name="algorithm">
+                <option value="sha256">SHA256</option>
+                <option value="sha512">SHA512</option>
+            </select>
+
+            <br><br><strong>Output Format</strong>
+                <br><select name="format">
+                <option value="hex">Hexidecimal</option>
+                <option value="base64">Base64</option>
+            </select>
+
+            <br><br><strong>String to Hash</strong>
+            <br><input type="text" name="string">
+
+            <br><br><input type="submit" value="Generate Hash">
+        </div>
+
+    </div>
 
     <script src="vendor/jquery-3.2.1.min.js"></script>
     <script src="vendor/sha256.js"></script>
-    <script src="vendor/sodium.min.js"></script>
+    <script src="vendor/sodium.sumo.js" async></script>
+
     <script src="src/seasalt.js"></script>
     <script language="JavaScript">
-        let seasalt = new SeaSalt;
 
-        $('input[name="generatePassphrase"]').click(function() {
+        window.sodium = {
+            onload: function() {
 
-            let key = seasalt.aead.xchacha.key();
+                let seasalt = new SeaSalt();
 
-            $('input[name="passphrase"]').val(key);
+                //  menu clicks
+                $('div.menu div').click(function() {
 
-        });
+                    let target = $(this).find('a').attr('name');
+                    $('div.display div').hide();
+                    $('div.display div.' + target).show();
 
-        $('input[type="submit"][name!="generatePassphrase"]').click(function() {
+                });
 
-            let cipher = 'xchacha';
-            let method = $(this).attr('name');
-            let string = $('input[name="' + method + '"]').val();
-            let passphrase = $('input[name="passphrase"]').val();
+                //  hashing
+                $('div.hash input[type="submit"]').click(function() {
 
-            if ( passphrase.length > 0 ) {
-                let result = ( method === 'encrypt' ) ? seasalt.aead_encrypt(string, passphrase, cipher) : seasalt.aead_decrypt(string, passphrase, cipher);
-                $('textarea#results').val(result);
+                    let algorithm = $('div.hash select[name="algorithm"]').val();
+                    let string = $('div.hash input[name="string"]').val();
+                    let format = $('div.hash select[name="format"]').val();
+                    let result = seasalt.hash[algorithm](string, format);
 
-                //  example code
-                let original = string;
-                let final = result;
-                if ( method === 'decrypt' ) {
-                    final = string;
-                    original = result;
-                }
+                    $('textarea#results').val(result);
 
-                let example = 'let seasalt = new SeaSalt;\n';
-                example += 'let original = \'' + original + '\';\n';
-                example += 'let ciphertext = seasalt.aead_encrypt(\n\toriginal, \n\t\'' + passphrase + '\', \n\t\'' + cipher + '\'\n);\n';
-                example += 'let decrypted = seasalt.aead_decrypt(\n\tciphertext, \n\t\'' + passphrase + '\', \n\t\'' + cipher + '\'\n);\n';
-                $('textarea#code').val(example);
+                    //  example
+                    let example = 'let seasate = new SeaSalt;\n';
+                    example += 'let string = \'' + string + '\'\n';
+                    example += 'let hash = seasalt.' + algorithm + '(string);\n';
+                    $('textarea#code').val(example);
 
-            } else {
-                $('textarea#results').val("You must provide a passphrase");
-                $('textarea#code').val('');
+                });
+
+                //  pwhash
+                $('div.pwhash input[type="submit"]').click(function() {
+
+                    let algorithm = $('div.pwhash select[name="algorithm"]').val();
+                    let security = $('div.pwhash select[name="security"]').val();
+                    let password = $('div.pwhash input[name="password"]').val();
+                    let hash = $('div.pwhash input[name="hash"]').val();
+                    let action = $(this).attr('name');
+                    let status = hash;
+
+                    if ( action === 'generate' ) {
+
+                        hash = seasalt.pwhash_create(password, security, algorithm);
+                        status = hash;
+                        $('div.pwhash input[name="hash"]').val(hash);
+
+                    } else if ( action === 'verify' ) {
+
+                        status = seasalt.pwhash_verify(hash, password, algorithm);
+
+                    } else {
+                        return;
+                    }
+
+                    $('textarea#results').val(status);
+                    let example = 'let seasalt = new SeaSalt;\n';
+                    example += 'let password = \'' + password + '\'\n';
+                    example += 'let hash = seasalt.pwhash_create(password, \'' + security + '\', \'' + algorithm + '\');\n';
+                    example += 'let verify = seasalt.pwhash_verify(hash, password);';
+                    $('textarea#code').val(example);
+
+                });
+
+                // aead
+                $('input[name="generatePassphrase"]').click(function() {
+
+                    let key = seasalt.aead.xchacha.key();
+
+                    $('.aead input[name="passphrase"]').val(key);
+
+                });
+
+                $('div.aead input[type="submit"][name!="generatePassphrase"]').click(function() {
+
+                    let cipher = 'xchacha';
+                    let method = $(this).attr('name');
+                    let string = $('input[name="' + method + '"]').val();
+                    let passphrase = $('.aead input[name="passphrase"]').val();
+
+                    if ( passphrase.length > 0 ) {
+                        let result = ( method === 'encrypt' ) ? seasalt.encrypt(string, passphrase, cipher) : seasalt.decrypt(string, passphrase, cipher);
+                        $('textarea#results').val(result);
+
+                        //  example code
+                        let original = string.replace(/'/g, "\\'");
+                        let final = result;
+                        if ( method === 'decrypt' ) {
+                            final = string;
+                            original = result.replace(/'/g, "\\'");
+                        } else {
+                            $('div.aead input[type="text"][name="decrypt"]').val(final);
+                        }
+
+                        let example = 'let seasalt = new SeaSalt({\n';
+                        example += '\tpassphrase: \'' + passphrase + '\'\n});\n';
+                        example += 'let ciphertext = seasalt.encrypt(\'' + original + '\');\n';
+                        example += 'let decrypted = seasalt.decrypt(ciphertext);\n';
+                        example += '\n// or\n\n';
+                        example += 'let seasalt = new SeaSalt;\n';
+                        example += 'let original = \'' + original + '\';\n';
+                        example += 'let ciphertext = seasalt.encrypt(\n\toriginal, \n\t\'' + passphrase + '\', \n\t\'' + cipher + '\'\n);\n';
+                        example += 'let decrypted = seasalt.decrypt(\n\tciphertext, \n\t\'' + passphrase + '\', \n\t\'' + cipher + '\'\n);\n';
+
+                        $('textarea#code').val(example);
+
+                    } else {
+                        $('textarea#results').val("You must provide a passphrase");
+                        $('textarea#code').val('');
+                    }
+
+                });
+
             }
-
-        });
+        }
 
     </script>
 
