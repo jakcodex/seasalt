@@ -27,7 +27,10 @@ class SeaSalt {
         if ( ['argon2', 'scrypt'].indexOf(this.config.pwhash) === -1 ) this.config.pwhash = 'argon2';
 
         //  merge configurations
-        $.extend(true, this.config, config);
+        if ( typeof config === 'object' )
+            for ( i in config )
+                if ( config.hasOwnProperty(i) )
+                    this.config[i] = config[i];
         if ( typeof this.config.logger === 'undefined' ) this.config.logger = console.log;
 
         //  link classes
@@ -35,6 +38,7 @@ class SeaSalt {
         this.pwhash.argon2 = new SeaSalt_PWHash_Argon2;
         this.pwhash.scrypt = new SeaSalt_PWHash_SCrypt;
         this.tools = new SeaSalt_Tools(this.config);
+        this.secretbox = new SeaSalt_AEAD_SecretBox(this.config);
 
         this.aead = {};
         this.aead.xchacha = new SeaSalt_AEAD_XChaCha(this.config);
@@ -44,7 +48,7 @@ class SeaSalt {
         //  check if jquery is available
         if ( typeof $ === 'undefined' ) {
 
-           return {};
+            return {};
 
         }
 
@@ -134,78 +138,45 @@ class SeaSalt {
 
     }
 
-    //  create a secret aead box
-    box_create(userPassword, secretItem) {
-
-        //  requires aead support
-        if ( this.state.aead === false ) return;
-
-        //  enforce any minimum password strength
-        if ( this.tools.passwordStrength(userPassword) < this.config.minimumStrength ) return;
-
-        //  parse the box contents into a string
-        if ( typeof secretItem === 'boolean' ) secretItem = ( secretItem === false ) ? "false" : "true";
-        if ( typeof secretItem === 'number' ) secretItem = secretItem.toString();
-        if ( typeof secretItem === 'object' ) secretItem = JSON.stringify(secretItem, true, 5);
-        if ( typeof secretItem === 'undefined' ) secretItem = this.aead[this.config.algorithm].key();
-        if ( typeof secretItem !== 'string' ) return false;
-
-        //  wrap the box
-        let box = this.encrypt(secretItem, userPassword);
-
-        //  verify the box
-        let contents = this.decrypt(box, userPassword);
-        if ( contents !== secretItem ) {
-            this.config.logger('SeaSalt/AEAD/box_create - Failed to validate box contents');
-            return false;
-        }
-
-        //  return the box
-        return box;
-
-    }
-
-    //  repackage a box
-    box_repackage(box, userPassword, newPassword) {
-
-        //  enforce any minimum password strength
-        if ( this.tools.passwordStrength(newPassword) < this.config.minimumStrength ) return;
-
-        //  open the box
-        let contents = this.decrypt(box, userPassword);
-
-        //  return the original box if we failed to open it
-        if ( typeof contents !== 'string' ) return box;
-
-        //  repackage the contents and return the new box
-        return this.box_create(newPassword, contents);
-
-    }
-
-    //  check if a secret item matches the contents of a box
-    box_check(box, userPassword, secretItem) {
-
-        if ( this.state.aead === false ) return;
-        if ( typeof secretItem === 'boolean' ) secretItem = ( secretItem === false ) ? "false" : "true";
-        if ( typeof secretItem === 'number' ) secretItem = secretItem.toString();
-        if ( typeof secretItem === 'object' ) secretItem = JSON.stringify(secretItem, true, 5);
-        if ( typeof secretItem !== 'string' ) return false;
-
-        let contents = this.decrypt(box, userPassword);
-        return ( contents === secretItem );
-
-    }
-
 }
 
 /* Generic Hashing */
 
 class SeaSalt_Hashing {
 
+    constructor(string, hash, format) {
+
+        this.reservedProperties = ['constructor', 'toString'];
+        this.validFormats = ['hex', 'binary', 'base64'];
+        if ( typeof string === 'string' ) {
+
+            let props = Object.getOwnPropertyNames(Object.getPrototypeOf(new SeaSalt_Hashing));
+            for ( x = 0; x < this.reservedProperties.length; x++ )
+                props.splice(props.indexOf(this.reservedProperties[x]), 1);
+            props = JSON.parse(JSON.stringify(props));
+            if ( typeof hash === 'undefined' ) hash = 'sha256';
+            if ( this.validFormats.indexOf(format) === -1 ) format = 'hex';
+            if ( props.indexOf(hash) === -1 ) throw "Invalid hash algorithm requested.";
+            this.binary = this[hash](string, 'binary');
+            this.hex = sodium.to_hex(this.binary);
+            this.base64 = sodium.to_base64(this.binary);
+            this.format = format;
+            this.length = this[this.format].length;
+
+        }
+
+    }
+
+    toString() {
+
+        return this.hex;
+
+    }
+
     sha256(string, format) {
 
         if ( !format ) format = 'hex';
-        if ( ['ascii', 'hex', 'binary', 'base64'].indexOf(format) === -1 ) format = 'hex';
+        if ( this.validFormats.indexOf(format) === -1 ) format = 'hex';
         let result = sodium.crypto_hash_sha256(string);
         if ( format === 'hex' ) return sodium.to_hex(result);
         if ( format === 'base64' ) return sodium.to_base64(result);
@@ -216,7 +187,7 @@ class SeaSalt_Hashing {
     sha512(string, format) {
 
         if ( !format ) format = 'hex';
-        if ( ['ascii', 'hex', 'binary', 'base64'].indexOf(format) === -1 ) format = 'hex';
+        if ( this.validFormats.indexOf(format) === -1 ) format = 'hex';
         let result = sodium.crypto_hash_sha512(string);
         if ( format === 'hex' ) return sodium.to_hex(result);
         if ( format === 'base64' ) return sodium.to_base64(result);
@@ -310,41 +281,211 @@ class SeaSalt_PWHash_SCrypt {
 /* AEAD Classes */
 
 //
-//  XChaCha20-Poly1305-IETF AEAD Methods
+//  Secret Box
 //
-class SeaSalt_AEAD_XChaCha {
+class SeaSalt_AEAD_SecretBox {
 
-    constructor(config) {
+    constructor(userPassword, secretItem, config) {
 
         this.config = {
             minimumEntropy: 1,
             minimumKeyLength: 1,
-            minimumStrength: 0
+            minimumStrength: 0,
+            logger: console.log
         };
-        if ( typeof config === 'object' ) $.extend(true, this.config, config);
+        if ( typeof userPassword === 'object' ) {
+
+            config = userPassword;
+            userPassword = undefined;
+            secretItem = undefined;
+
+        }
+
+        if ( typeof config === 'object' )
+            for ( let i in config )
+                if ( config.hasOwnProperty(i) )
+                    this.config[i] = config[i];
+
+        this.hash = new SeaSalt_Hashing;
+        this.tools = new SeaSalt_Tools(config);
+        this.aead = new SeaSalt_AEAD_XChaCha(config);
+
+        if ( userPassword ) this.box = this.create(userPassword, secretItem);
+
+    }
+
+    toString() {
+        return this.box;
+    }
+
+    //  create a secret aead box
+    create(userPassword, secretItem) {
+
+        //  return a box if it already exists
+        if ( this.box ) return this.box;
+
+        //  enforce any minimum password strength
+        if ( this.tools.passwordStrength(userPassword) < this.config.minimumStrength ) throw "Supplied password does not meet the minimum strength requirements.";
+
+        //  parse the box contents into a string
+        if ( typeof secretItem === 'boolean' ) secretItem = ( secretItem === false ) ? "false" : "true";
+        if ( typeof secretItem === 'number' ) secretItem = secretItem.toString();
+        if ( typeof secretItem === 'object' ) secretItem = JSON.stringify(secretItem, true, 5);
+        if ( typeof secretItem === 'undefined' ) secretItem = this.aead.key();
+        if ( typeof secretItem !== 'string' ) throw "Supplied secret item cannot be converted to a string.";
+
+        //  wrap the box
+        this.box = this.aead.encrypt(secretItem, userPassword);
+
+        //  verify the box
+        let contents = this.aead.decrypt(this.box, userPassword);
+        if ( contents !== secretItem ) {
+            this.config.logger('SeaSalt/AEAD/box_create - Failed to validate box contents');
+            throw "Failed to validate the box contents.";
+        }
+
+        //  return the box
+        return this.box;
+
+    }
+
+    //  repackage a box
+    repackage(box, userPassword, newPassword) {
+
+        if ( !box && !this.box ) throw "Secret box must be provided for repackaging.";
+        if ( box && userPassword && !newPassword ) {
+
+            if ( !this.box ) throw "Secret box must be provided for repackaging.";
+            newPassword = userPassword;
+            userPassword = box;
+            box = this.box;
+
+        }
+
+        if ( !box || !userPassword || !newPassword ) throw "Required arguments are missing";
+
+        //  enforce any minimum password strength
+        if ( this.tools.passwordStrength(newPassword) < this.config.minimumStrength ) return;
+
+        //  open the box
+        let contents = this.aead.decrypt(box, userPassword);
+
+        //  return the original box if we failed to open it
+        if ( typeof contents !== 'string' ) return box;
+
+        //  repackage the contents and return the new box
+        this.box = this.create(newPassword, contents);
+        return this.box;
+
+    }
+
+    //  check if a secret item matches the contents of a box
+    check(box, userPassword, secretItem) {
+
+        if ( !box && !this.box ) throw "Secret box must be provided for checking.";
+        if ( box && userPassword && !secretItem ) {
+
+            if ( !this.box ) throw "Secret box must be provided for repackaging.";
+            secretItem = userPassword;
+            userPassword = box;
+            box = this.box;
+
+        }
+
+        if ( !box || !userPassword || !secretItem ) throw "Required arguments are missing";
+
+        if ( typeof secretItem === 'boolean' ) secretItem = ( secretItem === false ) ? "false" : "true";
+        if ( typeof secretItem === 'number' ) secretItem = secretItem.toString();
+        if ( typeof secretItem === 'object' ) secretItem = JSON.stringify(secretItem, true, 5);
+        if ( typeof secretItem !== 'string' ) return;
+
+        let contents = this.aead.decrypt(box, userPassword);
+        return ( contents === secretItem );
+
+    }
+
+}
+
+//
+//  XChaCha20-Poly1305-IETF AEAD Methods
+//
+class SeaSalt_AEAD_XChaCha {
+
+    constructor(string, secret, box, config) {
+
+        if ( (typeof box === 'object' || typeof secret === 'object') && typeof config === 'undefined' ) {
+
+            if ( typeof secret === 'object' ) {
+                config = secret;
+                secret = undefined;
+                box = undefined;
+            }
+
+            if ( typeof box === 'object' && !(box instanceof SeaSalt_AEAD_SecretBox) ) {
+                config = box;
+                box = undefined;
+            }
+
+        }
+
+        this.config = {
+            minimumEntropy: 1,
+            minimumKeyLength: 1,
+            minimumStrength: 0,
+            logger: console.log
+        };
+
+        if ( typeof string === 'object' ) {
+
+            config = string;
+            string = undefined;
+
+        }
+
+        if ( typeof config === 'object' )
+            for ( let i in config )
+                if ( config.hasOwnProperty(i) )
+                    this.config[i] = config[i];
 
         this.hash = new SeaSalt_Hashing;
         this.tools = new SeaSalt_Tools;
+
+        //  load any secretbox
+        if ( box instanceof SeaSalt_AEAD_SecretBox && box.box ) this.box = box.box;
+        if ( typeof box === 'string' ) this.box = box;
+
+        //  run encryption if string is provided
+        if ( typeof string === 'string' ) this.encrypt(string, secret, box);
 
     }
 
     encrypt(string, secret, box) {
 
         if ( !string || !secret ) {
-            console.error('SeaSalt.aead.xchacha.encrypt() requires a string or secret to encrypt');
+            console.error('SeaSalt_AEAD_XChaCha::encrypt requires a string or secret to encrypt');
             return;
         }
 
-        //  open a box to object the secret key
+        //  it's the box-box
+        if ( typeof box === 'undefined' && this.box ) box = this.box;
+        if ( box instanceof SeaSalt_AEAD_SecretBox && typeof box.box === 'string' ) {
+            box = box.box;
+        } else if ( box && typeof box !== 'string' ) {
+            console.error('SeaSalt_AEAD_XChacha::decrypt supplied SecretBox is invalid');
+            return;
+        }
+
+        //  open a box to obtain the secret key
         if ( typeof box === 'string' ) {
 
-            let contents = this.decrypt(box, secret);
+            this.box = box;
+            let contents = this.decrypt(box, secret, false);
             if ( typeof contents === 'string' ) {
 
                 secret = contents;
-                this.config.logger('SeaSalt/AEAD/Encrypt - using secret box');
+                this.config.logger('SeaSalt_AEAD_XChaCha::encrypt using secret box');
 
-            }
+            } else throw "Failed to decrypt secret box.";
 
         }
 
@@ -352,32 +493,49 @@ class SeaSalt_AEAD_XChaCha {
         let key = sodium.from_hex(this.hash.sha256(secret));
         let ciphertext = sodium.crypto_aead_xchacha20poly1305_ietf_encrypt(string, '', '', nonce, key);
         sodium.memzero(key);
-        return sodium.to_hex(nonce) + sodium.to_hex(ciphertext);
+        this.ciphertext = sodium.to_hex(nonce) + sodium.to_hex(ciphertext);
+        return this.ciphertext;
 
     };
 
     decrypt(string, secret, box) {
 
-        if ( !string ) {
-            console.error('SeaSalt.aead.decrypt() requires a string to decrypt');
+        if ( !string || !secret ) {
+            console.error('SeaSalt_AEAD_XChaCha::decrypt requires a string and secret to decrypt');
             return;
         }
 
-        //  open a box to object the secret key
+        //  it's the box-box
+        if ( typeof box === 'undefined' && this.box ) box = this.box;
+        if ( box instanceof SeaSalt_AEAD_SecretBox && typeof box.box === 'string' ) {
+            box = box.box;
+        } else if ( box && typeof box !== 'string' ) {
+            console.error('SeaSalt_AEAD_XChacha::decrypt supplied SecretBox is invalid');
+            return;
+        }
+
+        //  open a box to obtain the secret key
         if ( typeof box === 'string' ) {
 
-            let contents = this.decrypt(box, secret);
+            this.box = box;
+            let contents = this.decrypt(box, secret, false);
             if ( typeof contents === 'string' ) {
 
                 secret = contents;
-                this.config.logger('SeaSalt/AEAD/Decrypt - using secret box');
+                this.config.logger('SeaSalt_AEAD_XChaCha::decrypt using secret box');
 
-            }
+            } else throw "Failed to decrypt secret box.";
 
         }
 
-        let nonce = sodium.from_hex(string.substr(0, sodium.crypto_aead_xchacha20poly1305_ietf_NPUBBYTES*2));
-        let ciphertext = sodium.from_hex(string.substr(sodium.crypto_aead_xchacha20poly1305_ietf_NPUBBYTES*2, string.length));
+        let nonce;
+        let ciphertext;
+        try {
+            nonce = sodium.from_hex(string.substr(0, sodium.crypto_aead_xchacha20poly1305_ietf_NPUBBYTES*2));
+            ciphertext = sodium.from_hex(string.substr(sodium.crypto_aead_xchacha20poly1305_ietf_NPUBBYTES*2, string.length));
+        } catch (e) {
+            return undefined;
+        }
         let key = sodium.from_hex(this.hash.sha256(secret));
         let result = '';
         try {
@@ -395,6 +553,17 @@ class SeaSalt_AEAD_XChaCha {
 
     }
 
+    //  output relevant json package
+    toJSON() {
+
+        var data = {
+            box: this.box,
+            ciphertext: this.ciphertext
+        };
+        return JSON.stringify(data, true, 5);
+
+    }
+
 }
 
 /* SeaSalt Tools */
@@ -407,7 +576,11 @@ class SeaSalt_Tools {
             minimumKeyLength: 6,
             minimumStrength: 1
         };
-        if ( typeof config === 'object' ) $.extend(true, this.config, config);
+        if ( typeof config === 'object' )
+            for ( let i in config )
+                if ( config.hasOwnProperty(i) )
+                    this.config[i] = config[i];
+        if ( typeof this.config.logger === 'undefined' ) this.config.logger = console.log;
 
     }
 
@@ -434,10 +607,10 @@ class SeaSalt_Tools {
         cat = strength;
         let chars = [];
         for ( let i in matches )
-        if ( matches.hasOwnProperty(i) )
-        if ( typeof matches[i] === 'object' && matches[i] !== null && matches[i].length )
-        for ( let x = 0; x < matches[i].length; x++ )
-        if ( chars.indexOf(matches[i][x].toLowerCase()) === -1 ) chars.push(matches[i][x].toLowerCase());
+            if ( matches.hasOwnProperty(i) )
+                if ( typeof matches[i] === 'object' && matches[i] !== null && matches[i].length )
+                    for ( let x = 0; x < matches[i].length; x++ )
+                        if ( chars.indexOf(matches[i][x].toLowerCase()) === -1 ) chars.push(matches[i][x].toLowerCase());
 
         //  adjust strength calculation
 

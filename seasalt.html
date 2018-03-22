@@ -231,7 +231,7 @@
                     $('textarea#results').val(result);
 
                     //  example
-                    let example = 'let seasate = new SeaSalt;\n';
+                    let example = 'let seasalt = new SeaSalt_Hashing;\n';
                     example += 'let string = \'' + string + '\'\n';
                     example += 'let hash = seasalt.' + algorithm + '(string);\n';
                     $('textarea#code').val(example);
@@ -247,10 +247,11 @@
                     let hash = $('div.pwhash input[name="hash"]').val();
                     let action = $(this).attr('name');
                     let status = hash;
+                    let test = new SeaSalt_PWHash_Argon2;
 
                     if ( action === 'generate' ) {
 
-                        hash = seasalt.pwhash_create(password, security, algorithm);
+                        hash = test.create(password, security, algorithm);
                         status = hash;
                         $('div.pwhash input[name="hash"]').val(hash);
 
@@ -263,10 +264,10 @@
                     }
 
                     $('textarea#results').val(status);
-                    let example = 'let seasalt = new SeaSalt;\n';
+                    let example = 'let seasalt = new SeaSalt_PWHash_Argon2;\n';
                     example += 'let password = \'' + password + '\'\n';
-                    example += 'let hash = seasalt.pwhash_create(password, \'' + security + '\', \'' + algorithm + '\');\n';
-                    example += 'let verify = seasalt.pwhash_verify(hash, password);';
+                    example += 'let hash = seasalt.create(password, \'' + security + '\', \'' + algorithm + '\');\n';
+                    example += 'let verify = seasalt.verify(hash, password);';
                     $('textarea#code').val(example);
 
                 });
@@ -282,13 +283,13 @@
 
                 $('div.aead input[type="submit"][name!="generatePassphrase"]').click(function() {
 
-                    let cipher = 'xchacha';
                     let method = $(this).attr('name');
                     let string = $('input[name="' + method + '"]').val();
                     let passphrase = $('.aead input[name="passphrase"]').val();
 
                     if ( passphrase.length > 0 ) {
-                        let result = ( method === 'encrypt' ) ? seasalt.encrypt(string, passphrase, cipher) : seasalt.decrypt(string, passphrase, cipher);
+                        let result = ( method === 'encrypt' ) ? seasalt.encrypt(string, passphrase) : seasalt.decrypt(string, passphrase);
+                        if ( result === undefined ) result = 'Error';
                         $('textarea#results').val(result);
 
                         //  example code
@@ -301,15 +302,10 @@
                             $('div.aead input[type="text"][name="decrypt"]').val(final);
                         }
 
-                        let example = 'let seasalt = new SeaSalt({\n';
-                        example += '\tpassphrase: \'' + passphrase + '\'\n});\n';
-                        example += 'let ciphertext = seasalt.encrypt(\'' + original + '\');\n';
-                        example += 'let decrypted = seasalt.decrypt(ciphertext);\n';
-                        example += '\n// or\n\n';
-                        example += 'let seasalt = new SeaSalt;\n';
-                        example += 'let original = \'' + original + '\';\n';
-                        example += 'let ciphertext = seasalt.encrypt(\n\toriginal, \n\t\'' + passphrase + '\', \n\t\'' + cipher + '\'\n);\n';
-                        example += 'let decrypted = seasalt.decrypt(\n\tciphertext, \n\t\'' + passphrase + '\', \n\t\'' + cipher + '\'\n);\n';
+                        let example = 'let seasalt = new SeaSalt_AEAD_XChaCha;\n';
+                        example += 'let passphrase = \'' + passphrase + '\';\n';
+                        example += 'let ciphertext = seasalt.encrypt(\'' + original + '\', passphrase);\n';
+                        example += 'let decrypted = seasalt.decrypt(ciphertext, passphrase);\n';
 
                         $('textarea#code').val(example);
 

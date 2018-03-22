@@ -1,6 +1,6 @@
 {
   "name": "Seasalt",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Javascript crypto utility built on Libsodium.js",
   "homepage": "https://jakcodex.github.io/seasalt/",
   "dependencies": {
