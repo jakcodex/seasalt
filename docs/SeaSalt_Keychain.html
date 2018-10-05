@@ -1,0 +1,3901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>SeaSalt_Keychain - Documentation</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <span class="navicon"></span>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="SeaSalt.html">SeaSalt</a></li><li><a href="SeaSalt_AEAD_SecretBox.html">SeaSalt_AEAD_SecretBox</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_AEAD_SecretBox.html#check">check</a></li><li data-type='method'><a href="SeaSalt_AEAD_SecretBox.html#create">create</a></li><li data-type='method'><a href="SeaSalt_AEAD_SecretBox.html#repackage">repackage</a></li><li data-type='method'><a href="SeaSalt_AEAD_SecretBox.html#toString">toString</a></li></ul></li><li><a href="SeaSalt_AEAD_XChaCha.html">SeaSalt_AEAD_XChaCha</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_AEAD_XChaCha.html#decrypt">decrypt</a></li><li data-type='method'><a href="SeaSalt_AEAD_XChaCha.html#encrypt">encrypt</a></li><li data-type='method'><a href="SeaSalt_AEAD_XChaCha.html#key">key</a></li><li data-type='method'><a href="SeaSalt_AEAD_XChaCha.html#toJSON">toJSON</a></li></ul></li><li><a href="SeaSalt_Common.html">SeaSalt_Common</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_Common.html#aead_test">aead_test</a></li><li data-type='method'><a href="SeaSalt_Common.html#decrypt">decrypt</a></li><li data-type='method'><a href="SeaSalt_Common.html#encrypt">encrypt</a></li><li data-type='method'><a href="SeaSalt_Common.html#pwhash_create">pwhash_create</a></li><li data-type='method'><a href="SeaSalt_Common.html#pwhash_verify">pwhash_verify</a></li><li data-type='method'><a href="SeaSalt_Common.html#test">test</a></li></ul></li><li><a href="SeaSalt_Hashing.html">SeaSalt_Hashing</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_Hashing.html#sha256">sha256</a></li><li data-type='method'><a href="SeaSalt_Hashing.html#sha512">sha512</a></li><li data-type='method'><a href="SeaSalt_Hashing.html#toString">toString</a></li></ul></li><li><a href="SeaSalt_Keychain.html">SeaSalt_Keychain</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_Keychain.html#backup">backup</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#close">close</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#create">create</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#create_recovery">create_recovery</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#decrypt">decrypt</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#destroy">destroy</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#encrypt">encrypt</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#error">error</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#export_key">export_key</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#find_recovery">find_recovery</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#get_keysalt">get_keysalt</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#hash">hash</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#import_key">import_key</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#key">key</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#keyconf">keyconf</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#listkeys">listkeys</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#log">log</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#open">open</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#purge">purge</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#read">read</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#rekey">rekey</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#restore_recovery">restore_recovery</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#save">save</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#store_history">store_history</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#toJSON">toJSON</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#update">update</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#write">write</a></li></ul></li><li><a href="SeaSalt_PWHash_Argon2.html">SeaSalt_PWHash_Argon2</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_PWHash_Argon2.html#create">create</a></li><li data-type='method'><a href="SeaSalt_PWHash_Argon2.html#verify">verify</a></li></ul></li><li><a href="SeaSalt_PWHash_SCrypt.html">SeaSalt_PWHash_SCrypt</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_PWHash_SCrypt.html#create">create</a></li><li data-type='method'><a href="SeaSalt_PWHash_SCrypt.html#verify">verify</a></li></ul></li><li><a href="SeaSalt_Tools.html">SeaSalt_Tools</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_Tools.html#passwordStrength">passwordStrength</a></li><li data-type='method'><a href="SeaSalt_Tools.html#randomString">randomString</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">SeaSalt_Keychain</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    <span class="creds">
+      
+
+      
+    </span>
+
+    <hr>
+
+    
+        <h2>
+        SeaSalt_Keychain
+        </h2>
+        
+            <div class="class-description"><p>Keychain Management and Storage Engine based on LocalStorage and AEAD encryption</p>
+<h2>Keychain Introduction</h2><p>This class is designed to generate and maintain cryptographic data and optionally store it in localStorage. It supports multiple encryption key configurations, recovery keys, 256-bit XChaCha20-Poly1305 AEAD encryption, and more.</p>
+<h3>Basic Features</h3><ol>
+<li>Store and manage multiple key configurations</li>
+<li>Provide recovery keys and codes to restore access when a password or key is lost</li>
+<li>Storage is namespaced and will not overlap with other keys</li>
+<li>Storage keys and data are fully encrypted with an encryption key and salt not accessible by looking at stored configuration</li>
+<li>Encryption password changeable without rewriting encrypted storage</li>
+<li>Storage is optional and keychain can be used purely for temporary data/message encryption</li>
+</ol>
+<h3>Recipes</h3><h4>First Time Key Creation</h4><p><em>Uses: keychain.<a href="SeaSalt_Keychain.html#create">create</a>(), SeaSalt_Tools.<a href="SeaSalt_Tools.html#randomString">randomString</a>()</em></p>
+<pre class="prettyprint source lang-js"><code>//  first let's initiate the keychain
+//  it will attempt to locate keychain data; otherwise it creates a new keychain
+let keychain = new SeaSalt_Keychain();
+
+//  okay, now let's make a new encryption key configuration
+//  first we need a good, strong password. here we will generate one using SeaSalt_Tools.randomString
+let password = keychain.tools.randomString(32); // returns a password like: ]IK4,=Qa?3,@@?@AW`N&or_l#eTy+K^:
+
+//  next let's create a keychain and provide it a good name
+let result = keychain.create('My Keychain', password);
+
+//  result should now contain an object with the key signature and recovery codes
+//  in the event you lose the password or encryption key data, the recovery codes and keys can be used to restore access</code></pre><h4>Encrypting and Decrypting Data</h4><p><em>Uses: keychain.<a href="SeaSalt_Keychain.html#encrypt">encrypt</a>(), keychain.<a href="SeaSalt_Keychain.html#decrypt">decrypt</a>()</em></p>
+<pre class="prettyprint source lang-js"><code>//  now that you've got your key setup, let's use it.
+let original = 'My original message or string';
+let ciphertext = keychain.encrypt(original);
+
+//  ciphertext should look like: 4bd7b37447fb3495349f82e8d0da1fe14b27f3182102cf9cc1c5d7ec9c638c11...
+//  later on you decide to decrypt it
+let decrypted = keychain.decrypt(ciphertext);
+
+//  decrypted should contain: My original message or string</code></pre><h4>Encrypting and Decrypting LocalStorage</h4><ul>
+<li><em>Uses: keychain.<a href="SeaSalt_Keychain.html#read">read</a>(), keychain.<a href="SeaSalt_Keychain.html#write">write</a>()</em></li>
+</ul>
+<pre class="prettyprint source lang-js"><code>//  basically the same as above but using different methods to facilitate the storage part
+let storagekey = keychain.write('my storage key', original);
+
+//  the storage key name you specify is encrypted according to keychain.key(key)
+//  in this case, the key might look like seasalt:keychain:APxqB8gbHUWn:0:17771942b10497dc9d3a7f81b46e7cee2149f08dfed943a61562c7b69886d1b5...
+//  and the storage contents might look like: ae47fab647c46d3693c287cee088f9997d57996e73155a6d58191775611f22c4...
+
+//  later you decide to read the file
+let decrypted = keychain.read('my storage key');
+
+//  storage key names are unique to each key configuration. if you were to load a different key config and read the same storage key the result would be empty or an entirely different result.</code></pre><h4>Security for the Paranoid</h4><ul>
+<li><em>Uses: keychain.<a href="SeaSalt_Keychain.html#update">update</a>(), keychain.<a href="SeaSalt_Keychain.html#rekey">rekey</a>()</em></li>
+</ul>
+<pre class="prettyprint source lang-js"><code>//  okay, so let's say you want to make it really difficult for an attacker break in
+
+//  first, without changing your password you could instead repackage the secret box
+//  the secret box contains the encryption key and salt
+//  you can regenerate its secret box easily without changing the password
+keychain.update();
+
+//  this time we'll change the password and generate new secret box
+let newPassword = keychain.tools.randomString(32);
+keychain.update(newPassword);
+
+//  but what if that isn't enough? you can instead rekey the encryption key
+//  this will generate a new encryption key, secret box, and update any locally encrypted data with the new key
+//  this will also invalidate all existing recovery tokens and history data!
+keychain.rekey(true);</code></pre><h4>Using Recovery Codes</h4><p><em>Uses: keychain.<a href="SeaSalt_Keychain.html#find_recovery">find_recovery</a>(), keychain.<a href="SeaSalt_Keychain.html#restore_recovery">restore_recovery</a>(), keychain.<a href="SeaSalt_Keychain.html#read">read</a>(), SeaSalt_Tools.<a href="SeaSalt_Tools.html#randomString">randomString</a>()</em></p>
+<pre class="prettyprint source lang-js"><code>//  first, let's restore from a recovery key presently in the configuration
+//  let's test our recovery token using a key signature a recovery code we saved from keychain.create()
+let keychain = new SeaSalt_Keychain();
+let recoverykeys = keychain.find_recovery('P9WgA8taa9nc', '147918090902');
+
+//  recoverykeys should now be an array with at least one recovery key stored inside it
+//  we can restore it directly
+let newPassword = keychain.tools.randomString(32);
+keychain.restore_recovery('P9WgA8taa9nc', '147918090902', recoverykeys, newPassword);
+
+//  alternatively, if the keychain is missing you could instead provide the recoverykey yourself
+keychain.restore_recovery('P9WgA8taa9nc', '147918090902', '6ccc93ea0679919986391ec327f7414587ff75641157532ddb736dcbca4498f4...', newPassword);
+
+//  if successful the key will be restored and automatically opened
+//  we should be able to read its storage keys again
+keychain.read('my storage key');</code></pre></div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+
+    
+    <h2>Constructor</h2>
+    
+
+
+<div class="group" id="SeaSalt_Keychain">
+
+
+    <h4 class="name"><span class="type-signature"></span>new <b>SeaSalt_Keychain</b><span class="signature">(<span class="sig-params">sig<span class="signature-attributes">opt</span><span class="params-divider">, </span>password<span class="signature-attributes">opt</span><span class="params-divider">, </span>config<span class="signature-attributes">opt</span><span class="params-divider">, </span>data<span class="signature-attributes">opt</span></span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">sig</span><span class="type"><span class="param-type">:Object|string</span></span>
+    
+
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Key signature or initial config</p></div>
+
+    
+
+    
+        <span class="name">password</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Key password or keychain data</p></div>
+
+    
+
+    
+        <span class="name">config</span><span class="type"><span class="param-type">:Object</span></span>
+    
+
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>User configuration</p></div>
+
+    
+
+    
+        <span class="name">data</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Keychain data</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties</h5>
+
+    
+
+<div class="props">
+    
+
+    
+        <span class="name">config</span><span class="type"><span class="param-type">:Object</span></span>
+    
+
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Keychain configuration</p>
+        <div class="child-props">
+          
+
+<div class="props">
+    
+
+    
+        <span class="name"><span class="obj-tree">config.</span>debug</span><span class="type"><span class="param-type">:boolean</span></span>
+    
+
+    
+        <span class="default">
+        
+            = false
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Whether or not SeaSalt_Keychain is running in debugging mode</p></div>
+
+    
+
+    
+        <span class="name"><span class="obj-tree">config.</span>hash</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+        <span class="default">
+        
+            = sha512
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Hashing algorithm to use (sha256, sha512)</p></div>
+
+    
+
+    
+        <span class="name"><span class="obj-tree">config.</span>recoveryTokenCount</span><span class="type"><span class="param-type">:number</span></span>
+    
+
+    
+        <span class="default">
+        
+            = 2
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Number of recovery tokens to generate when creating a new key</p></div>
+
+    
+
+    
+        <span class="name"><span class="obj-tree">config.</span>recoveryTokenLength</span><span class="type"><span class="param-type">:number</span></span>
+    
+
+    
+        <span class="default">
+        
+            = 12
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Length of the recovery code</p></div>
+
+    
+
+    
+        <span class="name"><span class="obj-tree">config.</span>maxRecoveryPoints</span><span class="type"><span class="param-type">:number</span></span>
+    
+
+    
+        <span class="default">
+        
+            = 5
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Maximum number of recovery keys to keep per signature</p></div>
+
+    
+
+    
+        <span class="name"><span class="obj-tree">config.</span>maxRecoveryAge</span><span class="type"><span class="param-type">:number</span></span>
+    
+
+    
+        <span class="default">
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Maximum length of time in milliseconds to keep a recovery key before automatically deleting it</p></div>
+
+    
+
+    
+        <span class="name"><span class="obj-tree">config.</span>signatureLength</span><span class="type"><span class="param-type">:number</span></span>
+    
+
+    
+        <span class="default">
+        
+            = 12
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Length of generates key signatures</p></div>
+
+    
+
+    
+        <span class="name"><span class="obj-tree">config.</span>saltLength</span><span class="type"><span class="param-type">:number</span></span>
+    
+
+    
+        <span class="default">
+        
+            = 8
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Length of the public salt for hashing</p></div>
+
+    
+
+    
+        <span class="name"><span class="obj-tree">config.</span>keysaltLength</span><span class="type"><span class="param-type">:number</span></span>
+    
+
+    
+        <span class="default">
+        
+            = 8
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Length of the private key salt for hashing</p></div>
+
+    
+
+    
+        <span class="name"><span class="obj-tree">config.</span>storage</span><span class="type"><span class="param-type">:Object</span></span>
+    
+
+    
+        <span class="default">
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Storage API bindings and settings (custom methods must interface localStorage)</p>
+        <div class="child-props">
+          
+
+<div class="props">
+    
+
+    
+        <span class="name"><span class="obj-tree">config.storage.</span>enabled</span><span class="type"><span class="param-type">:boolean</span></span>
+    
+
+    
+        <span class="default">
+        
+            = true
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Whether or not to enable localStorage.</p>
+<p>Setting this to <code>false</code> will disable keychain.<a href="SeaSalt_Keychain.html#read">read</a>, keychain.<a href="SeaSalt_Keychain.html#write">write</a>, keychain.<a href="SeaSalt_Keychain.html#purge">purge</a>, and keychain.<a href="SeaSalt_Keychain.html#rekey">rekey</a>.</p></div>
+
+    
+
+    
+        <span class="name"><span class="obj-tree">config.storage.</span>prefix</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+        <span class="default">
+        
+            = seasalt:keychain:
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Prefix for all storage keys</p></div>
+
+    
+
+    
+        <span class="name"><span class="obj-tree">config.storage.</span>read</span><span class="type"><span class="param-type">:function</span></span>
+    
+
+    
+        <span class="default">
+        
+            = localStorage.getItem
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Function for reading from storage keys</p></div>
+
+    
+
+    
+        <span class="name"><span class="obj-tree">config.storage.</span>write</span><span class="type"><span class="param-type">:function</span></span>
+    
+
+    
+        <span class="default">
+        
+            = localStorage.setItem
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Function for writing to storage keys</p></div>
+
+    
+
+    
+        <span class="name"><span class="obj-tree">config.storage.</span>list</span><span class="type"><span class="param-type">:function</span></span>
+    
+
+    
+        <span class="default">
+        
+            = Object.keys(localStorage)
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Lists all found storage keys</p></div>
+
+    
+</div>
+
+        </div>
+    </div>
+
+    
+
+    
+        <span class="name"><span class="obj-tree">config.</span>log</span><span class="type"><span class="param-type">:function</span></span>
+    
+
+    
+        <span class="default">
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Function for handling logging calls</p></div>
+
+    
+</div>
+
+        </div>
+    </div>
+
+    
+
+    
+        <span class="name">ready</span><span class="type"><span class="param-type">:boolean</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Keychain state</p></div>
+
+    
+
+    
+        <span class="name">keys</span><span class="type"><span class="param-type">:Object</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Keychain configuration data keychain.<a href="SeaSalt_Keychain.html#keyconf">keyconf</a></p></div>
+
+    
+
+    
+        <span class="name">history</span><span class="type"><span class="param-type">:Object</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Stored secret boxes whose configuration has otherwise been deleted</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+    <h5>Examples</h5>
+    
+        <p class="code-caption">Basic Usage</p>
+    
+    <pre class="prettyprint"><code>let keychain = new SeaSalt_Keychain();</code></pre>
+
+        <p class="code-caption">Provide a Configuration</p>
+    
+    <pre class="prettyprint"><code>let keychain = new SeaSalt_Keychain({    hash: sha256,    recoveryTokenCount: 3,    storage: {        prefix: 'mycustom:prefix:'    }});</code></pre>
+
+        <p class="code-caption">Open key configuration on construction</p>
+    
+    <pre class="prettyprint"><code>let keychain = new SeaSalt_Keychain('APxqB8gbHUWn', 'mypassword');</code></pre>
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1179">line 1179</a></div>
+
+
+</div>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="backup">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>backup</b><span class="signature">(<span class="sig-params">sigs<span class="signature-attributes">opt</span></span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Generates a backup of all Keychain data or just the specified sigs. Requires JSZip dependency.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">sigs</span><span class="type"><span class="param-type">:string|Array</span></span>
+    
+
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Key signature or array of signatures to backup data for</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line2077">line 2077</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="close">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>close</b><span class="signature">(<span class="sig-params"></span>)</span><span class="type-signature">:boolean</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Close an opened key and erase all loaded settings</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:boolean</span>
+    </dd>
+</dl>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1590">line 1590</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="create">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>create</b><span class="signature">(<span class="sig-params">name<span class="params-divider">, </span>userPassword</span>)</span><span class="type-signature">:Object|boolean</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Create a new key configuration.</p>
+<h4>Recovery Codes</h4><p>The recovery codes are used to access the recovery keys.</p>
+<p>The recovery keys contain a copy of the original encryption key. A few are generated at creation and are stored in the keychain. You can create more later on.</p>
+<p>If you have they keychain, then you only need the recovery codes to use the keys. If you lose the keychain entirely, then you can provide both the code and key at restoration time.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">name</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Name for this key configuration</p></div>
+
+    
+
+    
+        <span class="name">userPassword</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Password for the key configuration</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:Object|boolean</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns an object containing the key signature and recovery codes/keys or false on failure</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>let keychain = new SeaSalt_Keychain();keychain.create('My config name', 'mymuchbetterpassword');//  returns an object like{     "sig": "aVXT41Qvhkzn",     "codes": {          "333400752028": "8db9a168853bfa778b510f93b99f8783ba48f0b7a8a7c31eaf317437dc9f22b4...",          "686119075418": "6ccc93ea0679919986391ec327f7414587ff75641157532ddb736dcbca4498f4..."     }}</code></pre>
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1453">line 1453</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="create_recovery">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>create_recovery</b><span class="signature">(<span class="sig-params">sig<span class="params-divider">, </span>userPassword<span class="params-divider">, </span>box<span class="signature-attributes">opt</span></span>)</span><span class="type-signature">:Object</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Generates a random code and corresponding secret box</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">sig</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Key configuration signature</p></div>
+
+    
+
+    
+        <span class="name">userPassword</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Hashed passphrase of the userPassword</p></div>
+
+    
+
+    
+        <span class="name">box</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Secret box to use for creating the recovery object</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:Object</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns an object containing a recovery code and recovery key</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+    <h5>Examples</h5>
+    
+        <p class="code-caption">Basic Usage</p>
+    
+    <pre class="prettyprint"><code>let keychain = new SeaSalt_Keychain();keychain.create_recovery('aVXT41Qvhkzn', 'mygreatestpasswordyet')//  returns an object like{     "code": "482559516047",     "token": "cd052b20c5dabb034975baae5c17e2b65521c5a9971fac10022874b557653e2f..."}</code></pre>
+
+        <p class="code-caption">Providing an Alternate Secret Box</p>
+    
+    <pre class="prettyprint"><code>//  let's say we want to use the first key stored in the key historylet keychain = new SeaSalt_Keychain();keychain.create_recovery('aVXT41Qvhkzn', 'mygreatestpasswordyet', keychain.keys.aVXT41Qvhkzn.history[0])</code></pre>
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1663">line 1663</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="decrypt">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>decrypt</b><span class="signature">(<span class="sig-params">ciphertext</span>)</span><span class="type-signature">:string</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Decrypt a provided ciphertext using the loaded key</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">ciphertext</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Ciphertext to decrypt</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:string</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns the decrypted string</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>let keychain = new SeaSalt_Keychain();keychain.open('aVXT41Qvhkzn', 'mygreatpassword33');keychain.decrypt('1a0a8965c5995dbfbb9e32706805e0d7c3bcdd080107d8929cb36f358af25825eb82cab9e2ce38363ed6f3e999b785e1823185a8ce4272ac');//  using the example from keychain.<a href="SeaSalt_Keychain.html#encrypt">encrypt</a> the result would be: My secret string</code></pre>
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1832">line 1832</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="destroy">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>destroy</b><span class="signature">(<span class="sig-params">sig<span class="signature-attributes">opt</span><span class="params-divider">, </span>history<span class="signature-attributes">opt</span><span class="params-divider">, </span>purge<span class="signature-attributes">opt</span></span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Destroys a key signature by deleting it from the keychain</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">sig</span><span class="type"><span class="param-type">:string|boolean</span></span>
+    
+
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Key configuration signature to destroy (treated as history if boolean)</p></div>
+
+    
+
+    
+        <span class="name">history</span><span class="type"><span class="param-type">:boolean</span></span>
+    
+
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Whether or not to delete history data for this key configuration</p></div>
+
+    
+
+    
+        <span class="name">purge</span><span class="type"><span class="param-type">:boolean</span></span>
+    
+
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Whether or not to purge all key data storage</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Examples</h5>
+    
+        <p class="code-caption">Basic Usage</p>
+    
+    <pre class="prettyprint"><code>//  destroy the key configuration but do not delete the history or storage datalet keychain = new SeaSalt_Keychain();keychain.destroy('aVXT41Qvhkzn');</code></pre>
+
+        <p class="code-caption">Advanced Usage</p>
+    
+    <pre class="prettyprint"><code>//  destroy the key configuration, history and storage datakeychain.destroy('aVXT41Qvhkzn', true, true);//  destroy all key configurations and datakeychain.destroy(true, true);</code></pre>
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1926">line 1926</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="encrypt">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>encrypt</b><span class="signature">(<span class="sig-params">string</span>)</span><span class="type-signature">:string</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Encrypt a string using the loaded key configuration encryption key.</p>
+<p>Encryption utilizes AEAD with nonces. The same string and key will never result in the same ciphertext twice.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">string</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>String to encrypt</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:string</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns the encrypted ciphertext</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>let keychain = new SeaSalt_Keychain();keychain.open('aVXT41Qvhkzn', 'mygreatpassword33');keychain.encrypt('My secret string');//  returns a string like: 1a0a8965c5995dbfbb9e32706805e0d7c3bcdd080107d8929cb36f358af25825eb82cab9e2ce38363ed6f3e999b785e1823185a8ce4272ac</code></pre>
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1813">line 1813</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="error">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>error</b><span class="signature">(<span class="sig-params">message</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Forward an error and throw it</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">message</span><span class="type"><span class="param-type">:string|exception</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Error message to throw</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1336">line 1336</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="export_key">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>export_key</b><span class="signature">(<span class="sig-params">sig<span class="signature-attributes">opt</span></span>)</span><span class="type-signature">:string</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Export the current sig, specified sig, or all sigs keychain data</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">sig</span><span class="type"><span class="param-type">:string|boolean</span></span>
+    
+
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Specific key signature, true for all, or none for currently opened key</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:string</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns a JSON object of the requested key configuration data</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>let keychain = new SeaSalt_Keychain();//  export all key configurationskeychain.export_key();//  export a specific key configurationkeychain.export_key('aVXT41Qvhkzn');</code></pre>
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1529">line 1529</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="find_recovery">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>find_recovery</b><span class="signature">(<span class="sig-params">sig<span class="params-divider">, </span>code<span class="params-divider">, </span>boxes<span class="signature-attributes">opt</span></span>)</span><span class="type-signature">:Array</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Check supplied code against all known or provided secret boxes</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">sig</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Key configuration signature</p></div>
+
+    
+
+    
+        <span class="name">code</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Recovery code to attempt validating</p></div>
+
+    
+
+    
+        <span class="name">boxes</span><span class="type"><span class="param-type">:string|Array</span></span>
+    
+
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Box or boxes to try validating against</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:Array</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns an array of all matching secret boxes</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+    <h5>Examples</h5>
+    
+        <p class="code-caption">Basic Usage</p>
+    
+    <pre class="prettyprint"><code>let keychain = new SeaSalt_Keychain();keychain.find_recovery('aVXT41Qvhkzn', '482559516047');</code></pre>
+
+        <p class="code-caption">Providing an Alternate Secret Box</p>
+    
+    <pre class="prettyprint"><code>//  in this case, let's say you are able to provide a copy of the recovery code and tokenlet keychain = new SeaSalt_Keychain();keychain.find_recovery('aVXT41Qvhkzn', '482559516047', 'cd052b20c5dabb034975baae5c17e2b65521c5a9971fac10022874b557653e2f...');</code></pre>
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1691">line 1691</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="get_keysalt">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>get_keysalt</b><span class="signature">(<span class="sig-params"></span>)</span><span class="type-signature">:string</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Get the private keysalt for the currently open key configuration</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:string</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns the found keysalt value</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1787">line 1787</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="hash">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>hash</b><span class="signature">(<span class="sig-params">string<span class="params-divider">, </span>salt<span class="signature-attributes">opt</span></span>)</span><span class="type-signature">:string</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Hash an input using the configured hashing algorithm with optional salt</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">string</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+        <span class="default">
+        
+        </span>
+    
+
+    
+
+    <div class="description last"><p>String to hash</p></div>
+
+    
+
+    
+        <span class="name">salt</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+        <span class="default">
+        
+            = Empty
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Salt to hash with</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:string</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns a hash of the input</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1324">line 1324</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="import_key">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>import_key</b><span class="signature">(<span class="sig-params">sig<span class="params-divider">, </span>data</span>)</span><span class="type-signature">:boolean</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Imports a key configuration to the keychain</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">sig</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Key configuration signature</p></div>
+
+    
+
+    
+        <span class="name">data</span><span class="type"><span class="param-type">:string|Object</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>JSON object of the key configuration data</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:boolean</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns true or false</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>let keychain = new SeaSalt_Keychain();keychain.import_key('aVXT41Qvhkzn', 'cd052b20c5dabb034975baae5c17e2b65521c5a9971fac10022874b557653e2f...');</code></pre>
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1498">line 1498</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="key">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>key</b><span class="signature">(<span class="sig-params">key</span>)</span><span class="type-signature">:string</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Converts a key to the encrypted-format key with format: <span style="color: red">prefix</span>:<span style="color: green">key signature</span>:<span style="color: blue">key format</span>:<span style="color: orange">encrypted storage key</span></p>
+<p>Example: <span style="color: red">seasalt:keychain</span>:<span style="color: green">FaWDuAFuZlyRg6IG</span>:<span style="color: blue">0</span>:<span style="color: orange">a8c0b162cacd0cb76803da4c5eb0269e...</span></p>
+<p>The encrypted storage key is a hash of the provided key and the private keysalt.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">key</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Storage key name to modify</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:string</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns a string containing the new storage key name</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>let keychain = new SeaSalt_Keychain();keychain.key('my storage key');//  returns a string like: seasalt:keychain:aVXT41Qvhkzn:0:a8c0b162cacd0cb76803da4c5eb0269e...</code></pre>
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1775">line 1775</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="keyconf">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>keyconf</b><span class="signature">(<span class="sig-params">config</span>)</span><span class="type-signature">:object</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Returns a new key configuration (generally for creation and restoration of key configurations)</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">config</span><span class="type"><span class="param-type">:Object</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Keychain key configuration values</p>
+        <div class="child-params">
+          
+
+<div class="params">
+    
+
+    
+        <span class="name"><span class="obj-tree">config.</span>box</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+        <span class="default">
+        
+        </span>
+    
+
+    
+
+    <div class="description last"><p>Secret box for the key</p></div>
+
+    
+
+    
+        <span class="name"><span class="obj-tree">config.</span>name</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+        <span class="default">
+        
+        </span>
+    
+
+    
+
+    <div class="description last"><p>Key configuration name</p></div>
+
+    
+
+    
+        <span class="name"><span class="obj-tree">config.</span>salt</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+        <span class="default">
+        
+        </span>
+    
+
+    
+
+    <div class="description last"><p>Key configuration public salt</p></div>
+
+    
+
+    
+        <span class="name"><span class="obj-tree">config.</span>format</span><span class="type"><span class="param-type">:number</span></span>
+    
+
+    
+        <span class="default">
+        
+            = 0
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Key configuration format</p></div>
+
+    
+
+    
+        <span class="name"><span class="obj-tree">config.</span>history</span><span class="type"><span class="param-type">:Array</span></span>
+    
+
+    
+        <span class="default">
+        
+            = []
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Previous secret box strings</p></div>
+
+    
+
+    
+        <span class="name"><span class="obj-tree">config.</span>recovery</span><span class="type"><span class="param-type">:Object</span></span>
+    
+
+    
+        <span class="default">
+        
+            = {}
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Recovery code objects</p></div>
+
+    
+</div>
+
+        </div>
+    </div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:object</span>
+    </dd>
+</dl>
+
+
+    
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>let keychain = new SeaSalt_Keychain();//  the keys name, box, and salt are requiredkeychain.keyconf({   name: 'My config name',   box: 'Secret box string',   salt: 'Public salt'});</code></pre>
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1363">line 1363</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="listkeys">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>listkeys</b><span class="signature">(<span class="sig-params"></span>)</span><span class="type-signature">:Array</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Return a list of key configuration signatures</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:Array</span>
+    </dd>
+</dl>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1950">line 1950</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="log">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>log</b><span class="signature">(<span class="sig-params">&hellip;arg</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Forwards logging requests to the configured log handler</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">arg</span><span class="type"><span class="param-type">:*</span></span>
+    
+
+    
+
+    
+        <span class="attributes">
+        
+
+        
+
+        
+            (repeatable)<br>
+        
+        </span>
+    
+
+    <div class="description last"><p>Arguments to forward to logging handler</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1311">line 1311</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="open">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>open</b><span class="signature">(<span class="sig-params">sig<span class="params-divider">, </span>userPassword<span class="signature-attributes">opt</span></span>)</span><span class="type-signature">:boolean</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Attempt to read and parse a keychain entry (or open the only existing key if sig omitted)</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">sig</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Key configuration signature</p></div>
+
+    
+
+    
+        <span class="name">userPassword</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Password for the key configuration</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:boolean</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns true or false</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+    <h5>Examples</h5>
+    
+        <p class="code-caption">Basic Usage</p>
+    
+    <pre class="prettyprint"><code>let keychain = new SeaSalt_Keychain();keychain.open('aVXT41Qvhkzn', 'mygreatpassword');</code></pre>
+
+        <p class="code-caption">Usage with a Single Key Config</p>
+    
+    <pre class="prettyprint"><code>let keychain = new SeaSalt_Keychain();keychain.open('mygreatpassword');</code></pre>
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1549">line 1549</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="purge">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>purge</b><span class="signature">(<span class="sig-params">sig<span class="signature-attributes">opt</span><span class="params-divider">, </span>all<span class="signature-attributes">opt</span><span class="params-divider">, </span>confirm<span class="params-divider">, </span>reverse<span class="signature-attributes">opt</span><span class="params-divider">, </span>history<span class="signature-attributes">opt</span></span>)</span><span class="type-signature">:object|undefined</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Purge data from the keychain and storage</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">sig</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+        <span class="default">
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Key configuration signature</p></div>
+
+    
+
+    
+        <span class="name">all</span><span class="type"><span class="param-type">:boolean</span></span>
+    
+
+    
+        <span class="default">
+        
+            = false
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Whether or not to purge all data and not just storage data</p></div>
+
+    
+
+    
+        <span class="name">confirm</span><span class="type"><span class="param-type">:boolean</span></span>
+    
+
+    
+        <span class="default">
+        
+        </span>
+    
+
+    
+
+    <div class="description last"><p>Whether or not you confirm this command</p></div>
+
+    
+
+    
+        <span class="name">reverse</span><span class="type"><span class="param-type">:boolean</span></span>
+    
+
+    
+        <span class="default">
+        
+            = false
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Whether or not to erase all data that doesn't match key configuration signature</p></div>
+
+    
+
+    
+        <span class="name">history</span><span class="type"><span class="param-type">:boolean</span></span>
+    
+
+    
+        <span class="default">
+        
+            = false
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Whether or not to erase all associated history data</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:object|undefined</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns an object listing all deleted key signatures and storage keys</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+    <h5>Examples</h5>
+    
+        <p class="code-caption">Basic Usage</p>
+    
+    <pre class="prettyprint"><code>//  delete all storage data for specified key configurationlet keychain = new SeaSalt_Keychain();keychain.purge('aVXT41Qvhkzn', false, true);</code></pre>
+
+        <p class="code-caption">Advanced Usage</p>
+    
+    <pre class="prettyprint"><code>//  delete storage and key configuration datakeychain.purge('aVXT41Qvhkzn', true, true);//  delete storage, key configuration, and history datakeychain.purge('aVXT41Qvhkzn', true, true, false, true);//  delete all storage data for keys other than the one specifiedkeychain.purge('aVXT41Qvhkzn', false, true, true);//  delete all datakeychain.purge(undefined, true, true);</code></pre>
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1982">line 1982</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="read">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>read</b><span class="signature">(<span class="sig-params">key</span>)</span><span class="type-signature">:string|undefined</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Read and decrypt a string from storage</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">key</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Storage key to read</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:string|undefined</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns the decryption result data</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+        <p class="code-caption">Basic Usage</p>
+    
+    <pre class="prettyprint"><code>let keychain = new SeaSalt_Keychain('aVXT41Qvhkzn', 'mygreatpassword33');keychain.read('mystoragekey1');//  using the example from keychain.<a href="SeaSalt_Keychain.html#write">write</a> the result would be: Hello world</code></pre>
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1850">line 1850</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="rekey">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>rekey</b><span class="signature">(<span class="sig-params">confirm</span>)</span><span class="type-signature">:object|undefined</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Create a new encryption key and rekeys associated objects in localStorage and recovery codes for currently opened key configuration.</p>
+<p>This action renders all prior recovery and history keys unusable. If you value your data then definitely create a backup prior to executing this command.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">confirm</span><span class="type"><span class="param-type">:boolean</span></span>
+    
+
+    
+        <span class="default">
+        
+            = false
+        
+        </span>
+    
+
+    
+
+    <div class="description last"><p>Whether or not to confirm the action</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:object|undefined</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns an object containing the key signature and new recovery codes</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line2051">line 2051</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="restore_recovery">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>restore_recovery</b><span class="signature">(<span class="sig-params">sig<span class="params-divider">, </span>code<span class="params-divider">, </span>boxes<span class="params-divider">, </span>newPassword</span>)</span><span class="type-signature">:boolean</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Installs the provided secret box (or the first valid in an array) to the specified key and resets a new password</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">sig</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Key configuration signature</p></div>
+
+    
+
+    
+        <span class="name">code</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Recovery code to utilize</p></div>
+
+    
+
+    
+        <span class="name">boxes</span><span class="type"><span class="param-type">:string|Array</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Box or boxes to try recovering from</p></div>
+
+    
+
+    
+        <span class="name">newPassword</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>New password for the key configuration</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:boolean</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns true or false</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>let keychain = new SeaSalt_Keychain();let recoveryboxes = keychain.<a href="SeaSalt_Keychain.html#find_recovery">find_recovery</a>('aVXT41Qvhkzn', '482559516047');keychain.restore_recovery('aVXT41Qvhkzn', '482559516047', recoveryboxes, 'mysuperdupernewpassword');</code></pre>
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1731">line 1731</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="save">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>save</b><span class="signature">(<span class="sig-params"></span>)</span><span class="type-signature">:boolean</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Store the keychain to localStorage</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:boolean</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>True or false depending on save status</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1405">line 1405</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="store_history">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>store_history</b><span class="signature">(<span class="sig-params">sig<span class="signature-attributes">opt</span></span>)</span><span class="type-signature">:boolean</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Stores the specified key signature or loaded key signature's secret box in the recovery chain.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">sig</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Key configuration signature</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:boolean</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns true or false</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1634">line 1634</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="toJSON">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>toJSON</b><span class="signature">(<span class="sig-params"></span>)</span><span class="type-signature">:string</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Convert the keychain into a JSON object for storage</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:string</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>JSON object of keychain data</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1390">line 1390</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="update">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>update</b><span class="signature">(<span class="sig-params">newPassword<span class="signature-attributes">opt</span></span>)</span><span class="type-signature">:boolean</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Repackages currently opened secret box optionally with a new password</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">newPassword</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>New password for the key configuration</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:boolean</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns true or false</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+    <h5>Examples</h5>
+    
+        <p class="code-caption">Repackage a secret box without changing the password</p>
+    
+    <pre class="prettyprint"><code>let keychain = new SeaSalt_Keychain();keychain.open('aVXT41Qvhkzn', 'mygreatpassword');keychain.update();</code></pre>
+
+        <p class="code-caption">Repackage a secret box and change the password</p>
+    
+    <pre class="prettyprint"><code>let keychain = new SeaSalt_Keychain();keychain.open('aVXT41Qvhkzn', 'mygreatpassword');keychain.update('mysuperbetterpassword1');</code></pre>
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1613">line 1613</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="write">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>write</b><span class="signature">(<span class="sig-params">key<span class="params-divider">, </span>value</span>)</span><span class="type-signature">:string|boolean</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Encrypts and writes data to storage.</p>
+<p>Storage key names are unique to each key configuration. Thus storage key names do not need to be unique between key configurations.</p>
+<p>See keychain.<a href="SeaSalt_Keychain.html#key">key</a> for information regarding the returned key format.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">key</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Storage key to write</p></div>
+
+    
+
+    
+        <span class="name">value</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>String to be encrypted and stored</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:string|boolean</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns the storage key name or false</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>let keychain = new SeaSalt_Keychain('aVXT41Qvhkzn', 'mygreatpassword33');keychain.write('mystoragekey1', 'Hello world');//  returns a string like: seasalt:keychain:aVXT41Qvhkzn:0:44f3ef019ab2cd691a7d102cf8471d0d43f95d7c5582568885a4975c91a0ecb9...</code></pre>
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line1883">line 1883</a></div>
+
+
+</div>
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc" target="_blank">JSDoc 3.5.5</a> on 10/5/2018 using the <a href="https://github.com/Grafluxe/boxy-jsdoc-template" target="_blank">boxy-jsdoc-template</a> theme.
+</footer>
+
+<script src="scripts/prettify/prettify.js"></script>
+<script src="scripts/prettify/lang-css.js"></script>
+<script src="scripts/script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>SeaSalt_Tools - Documentation</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <span class="navicon"></span>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="SeaSalt.html">SeaSalt</a></li><li><a href="SeaSalt_AEAD_SecretBox.html">SeaSalt_AEAD_SecretBox</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_AEAD_SecretBox.html#check">check</a></li><li data-type='method'><a href="SeaSalt_AEAD_SecretBox.html#create">create</a></li><li data-type='method'><a href="SeaSalt_AEAD_SecretBox.html#repackage">repackage</a></li><li data-type='method'><a href="SeaSalt_AEAD_SecretBox.html#toString">toString</a></li></ul></li><li><a href="SeaSalt_AEAD_XChaCha.html">SeaSalt_AEAD_XChaCha</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_AEAD_XChaCha.html#decrypt">decrypt</a></li><li data-type='method'><a href="SeaSalt_AEAD_XChaCha.html#encrypt">encrypt</a></li><li data-type='method'><a href="SeaSalt_AEAD_XChaCha.html#key">key</a></li><li data-type='method'><a href="SeaSalt_AEAD_XChaCha.html#toJSON">toJSON</a></li></ul></li><li><a href="SeaSalt_Common.html">SeaSalt_Common</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_Common.html#aead_test">aead_test</a></li><li data-type='method'><a href="SeaSalt_Common.html#decrypt">decrypt</a></li><li data-type='method'><a href="SeaSalt_Common.html#encrypt">encrypt</a></li><li data-type='method'><a href="SeaSalt_Common.html#pwhash_create">pwhash_create</a></li><li data-type='method'><a href="SeaSalt_Common.html#pwhash_verify">pwhash_verify</a></li><li data-type='method'><a href="SeaSalt_Common.html#test">test</a></li></ul></li><li><a href="SeaSalt_Hashing.html">SeaSalt_Hashing</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_Hashing.html#sha256">sha256</a></li><li data-type='method'><a href="SeaSalt_Hashing.html#sha512">sha512</a></li><li data-type='method'><a href="SeaSalt_Hashing.html#toString">toString</a></li></ul></li><li><a href="SeaSalt_Keychain.html">SeaSalt_Keychain</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_Keychain.html#backup">backup</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#close">close</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#create">create</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#create_recovery">create_recovery</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#decrypt">decrypt</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#destroy">destroy</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#encrypt">encrypt</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#error">error</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#export_key">export_key</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#find_recovery">find_recovery</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#get_keysalt">get_keysalt</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#hash">hash</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#import_key">import_key</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#key">key</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#keyconf">keyconf</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#listkeys">listkeys</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#log">log</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#open">open</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#purge">purge</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#read">read</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#rekey">rekey</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#restore_recovery">restore_recovery</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#save">save</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#store_history">store_history</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#toJSON">toJSON</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#update">update</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#write">write</a></li></ul></li><li><a href="SeaSalt_PWHash_Argon2.html">SeaSalt_PWHash_Argon2</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_PWHash_Argon2.html#create">create</a></li><li data-type='method'><a href="SeaSalt_PWHash_Argon2.html#verify">verify</a></li></ul></li><li><a href="SeaSalt_PWHash_SCrypt.html">SeaSalt_PWHash_SCrypt</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_PWHash_SCrypt.html#create">create</a></li><li data-type='method'><a href="SeaSalt_PWHash_SCrypt.html#verify">verify</a></li></ul></li><li><a href="SeaSalt_Tools.html">SeaSalt_Tools</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_Tools.html#passwordStrength">passwordStrength</a></li><li data-type='method'><a href="SeaSalt_Tools.html#randomString">randomString</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">SeaSalt_Tools</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    <span class="creds">
+      
+
+      
+    </span>
+
+    <hr>
+
+    
+        <h2>
+        SeaSalt_Tools
+        </h2>
+        
+            <div class="class-description"><p>SeaSalt Tools</p></div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+
+    
+    <h2>Constructor</h2>
+    
+
+
+<div class="group" id="SeaSalt_Tools">
+
+
+    <h4 class="name"><span class="type-signature"></span>new <b>SeaSalt_Tools</b><span class="signature">(<span class="sig-params">config<span class="signature-attributes">opt</span></span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>A collection of commonly used tools</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">config</span><span class="type"><span class="param-type">:object</span></span>
+    
+
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>User-provided configuration data</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line901">line 901</a></div>
+
+
+</div>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="passwordStrength">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>passwordStrength</b><span class="signature">(<span class="sig-params">password</span>)</span><span class="type-signature">:number</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Calculate the strength of a supplied password</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">password</span><span class="type"><span class="param-type">:string</span></span>
+    
+
+    
+
+    
+
+    <div class="description last"><p>Password to check</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:number</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns the calculated strength of the provided password.</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line970">line 970</a></div>
+
+
+</div>
+
+        
+            
+
+
+    
+
+
+<div class="group" id="randomString">
+
+
+    <h4 class="name"><span class="type-signature"></span><b>randomString</b><span class="signature">(<span class="sig-params">length<span class="signature-attributes">opt</span><span class="params-divider">, </span>alpha<span class="signature-attributes">opt</span><span class="params-divider">, </span>caps<span class="signature-attributes">opt</span><span class="params-divider">, </span>numeric<span class="signature-attributes">opt</span><span class="params-divider">, </span>symbols<span class="signature-attributes">opt</span></span>)</span><span class="type-signature">:string</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Generates a random string of any length with a variable character pool.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters</h5>
+    
+
+<div class="params">
+    
+
+    
+        <span class="name">length</span><span class="type"><span class="param-type">:number</span></span>
+    
+
+    
+        <span class="default">
+        
+            = 32
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Length of string to generate</p></div>
+
+    
+
+    
+        <span class="name">alpha</span><span class="type"><span class="param-type">:boolean</span></span>
+    
+
+    
+        <span class="default">
+        
+            = true
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Include lower case alphabet in the pool</p></div>
+
+    
+
+    
+        <span class="name">caps</span><span class="type"><span class="param-type">:boolean</span></span>
+    
+
+    
+        <span class="default">
+        
+            = true
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Include upper case alphabet in the pool</p></div>
+
+    
+
+    
+        <span class="name">numeric</span><span class="type"><span class="param-type">:boolean</span></span>
+    
+
+    
+        <span class="default">
+        
+            = true
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Include numbers in the pool</p></div>
+
+    
+
+    
+        <span class="name">symbols</span><span class="type"><span class="param-type">:boolean</span></span>
+    
+
+    
+        <span class="default">
+        
+            = true
+        
+        </span>
+    
+
+    
+        <span class="attributes">
+        
+            (optional)<br>
+        
+
+        
+
+        
+        </span>
+    
+
+    <div class="description last"><p>Include symbols in the pool</p></div>
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        <span class="param-type">:string</span>
+    </dd>
+</dl>
+
+<div class="param-desc">
+    <p>Returns a random string from the character pool.</p>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+<div class="src">Source: <a href="seasalt.js.html">seasalt.js</a>, <a href="seasalt.js.html#line937">line 937</a></div>
+
+
+</div>
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc" target="_blank">JSDoc 3.5.5</a> on 10/5/2018 using the <a href="https://github.com/Grafluxe/boxy-jsdoc-template" target="_blank">boxy-jsdoc-template</a> theme.
+</footer>
+
+<script src="scripts/prettify/prettify.js"></script>
+<script src="scripts/prettify/lang-css.js"></script>
+<script src="scripts/script.js"></script>
+
+</body>
+</html>

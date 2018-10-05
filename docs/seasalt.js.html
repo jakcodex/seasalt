@@ -1,4 +1,41 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>seasalt.js - Documentation</title>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <span class="navicon"></span>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="SeaSalt.html">SeaSalt</a></li><li><a href="SeaSalt_AEAD_SecretBox.html">SeaSalt_AEAD_SecretBox</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_AEAD_SecretBox.html#check">check</a></li><li data-type='method'><a href="SeaSalt_AEAD_SecretBox.html#create">create</a></li><li data-type='method'><a href="SeaSalt_AEAD_SecretBox.html#repackage">repackage</a></li><li data-type='method'><a href="SeaSalt_AEAD_SecretBox.html#toString">toString</a></li></ul></li><li><a href="SeaSalt_AEAD_XChaCha.html">SeaSalt_AEAD_XChaCha</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_AEAD_XChaCha.html#decrypt">decrypt</a></li><li data-type='method'><a href="SeaSalt_AEAD_XChaCha.html#encrypt">encrypt</a></li><li data-type='method'><a href="SeaSalt_AEAD_XChaCha.html#key">key</a></li><li data-type='method'><a href="SeaSalt_AEAD_XChaCha.html#toJSON">toJSON</a></li></ul></li><li><a href="SeaSalt_Common.html">SeaSalt_Common</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_Common.html#aead_test">aead_test</a></li><li data-type='method'><a href="SeaSalt_Common.html#decrypt">decrypt</a></li><li data-type='method'><a href="SeaSalt_Common.html#encrypt">encrypt</a></li><li data-type='method'><a href="SeaSalt_Common.html#pwhash_create">pwhash_create</a></li><li data-type='method'><a href="SeaSalt_Common.html#pwhash_verify">pwhash_verify</a></li><li data-type='method'><a href="SeaSalt_Common.html#test">test</a></li></ul></li><li><a href="SeaSalt_Hashing.html">SeaSalt_Hashing</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_Hashing.html#sha256">sha256</a></li><li data-type='method'><a href="SeaSalt_Hashing.html#sha512">sha512</a></li><li data-type='method'><a href="SeaSalt_Hashing.html#toString">toString</a></li></ul></li><li><a href="SeaSalt_Keychain.html">SeaSalt_Keychain</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_Keychain.html#backup">backup</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#close">close</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#create">create</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#create_recovery">create_recovery</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#decrypt">decrypt</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#destroy">destroy</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#encrypt">encrypt</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#error">error</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#export_key">export_key</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#find_recovery">find_recovery</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#get_keysalt">get_keysalt</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#hash">hash</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#import_key">import_key</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#key">key</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#keyconf">keyconf</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#listkeys">listkeys</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#log">log</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#open">open</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#purge">purge</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#read">read</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#rekey">rekey</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#restore_recovery">restore_recovery</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#save">save</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#store_history">store_history</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#toJSON">toJSON</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#update">update</a></li><li data-type='method'><a href="SeaSalt_Keychain.html#write">write</a></li></ul></li><li><a href="SeaSalt_PWHash_Argon2.html">SeaSalt_PWHash_Argon2</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_PWHash_Argon2.html#create">create</a></li><li data-type='method'><a href="SeaSalt_PWHash_Argon2.html#verify">verify</a></li></ul></li><li><a href="SeaSalt_PWHash_SCrypt.html">SeaSalt_PWHash_SCrypt</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_PWHash_SCrypt.html#create">create</a></li><li data-type='method'><a href="SeaSalt_PWHash_SCrypt.html#verify">verify</a></li></ul></li><li><a href="SeaSalt_Tools.html">SeaSalt_Tools</a><ul class='methods'><li class='list-title'>Methods</li><li data-type='method'><a href="SeaSalt_Tools.html#passwordStrength">passwordStrength</a></li><li data-type='method'><a href="SeaSalt_Tools.html#randomString">randomString</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">seasalt.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @file
  * ## __Seasalt Libsodium.js Wrapper__
  *
@@ -55,7 +92,7 @@
  * @property {SeaSalt_PWHash_Argon2} pwhash.scrypt - An instance of {@link SeaSalt_PWHash_SCrypt}
  * @property {SeaSalt_AEAD_SecretBox} secretbox - An instance of {@link SeaSalt_AEAD_SecretBox}
  * @property {SeaSalt_Tools} tools - An instance of {@link SeaSalt_Tools}
- * @example <caption>Basic Usage</caption>
+ * @example &lt;caption>Basic Usage&lt;/caption>
  * //  most basic usage
  * let seasalt = new SeaSalt();
  *
@@ -172,7 +209,7 @@ class SeaSalt_Common {
     pwhash_create(password, security, algorithm) {
 
         if ( !algorithm ) algorithm = this.config.pwhash;
-        if ( algorithm && Object.keys(this.pwhash).indexOf(algorithm) === -1 ) algorithm = this.config.pwhash;
+        if ( algorithm &amp;&amp; Object.keys(this.pwhash).indexOf(algorithm) === -1 ) algorithm = this.config.pwhash;
         return this.pwhash[algorithm].create(password, security);
 
     }
@@ -188,7 +225,7 @@ class SeaSalt_Common {
     pwhash_verify(hash, password, algorithm) {
 
         if ( !algorithm ) algorithm = this.config.pwhash;
-        if ( algorithm && Object.keys(this.pwhash).indexOf(algorithm) === -1 ) algorithm = this.config.pwhash;
+        if ( algorithm &amp;&amp; Object.keys(this.pwhash).indexOf(algorithm) === -1 ) algorithm = this.config.pwhash;
         return this.pwhash[algorithm].verify(hash, password);
 
     }
@@ -250,7 +287,7 @@ class SeaSalt_Hashing {
         if ( typeof string === 'string' ) {
 
             let props = Object.getOwnPropertyNames(Object.getPrototypeOf(new SeaSalt_Hashing));
-            for ( let x = 0; x < this.reservedProperties.length; x++ )
+            for ( let x = 0; x &lt; this.reservedProperties.length; x++ )
                 props.splice(props.indexOf(this.reservedProperties[x]), 1);
             props = JSON.parse(JSON.stringify(props));
             if ( typeof hash === 'undefined' ) hash = 'sha256';
@@ -517,13 +554,13 @@ class SeaSalt_AEAD_SecretBox {
      * @param {string} secretItem - Item to place inside the box
      * @returns {string} Returns the secret box ciphertext.
      * @description Create a secret box with the provided item.
-     * @example <caption>Basic Usage</caption>
+     * @example &lt;caption>Basic Usage&lt;/caption>
      * let aead = new SeaSalt_AEAD_XChaCha();
      * let secretbox = new SeaSalt_AEAD_SecretBox();
      * secretbox.create('mygreatpassword1', aead.key());
      *
      * //  returns a string like: 077eb44fc4d04ad6093f6ab5c1938c151c07fd9fb360234670a7e0da4530aa3f...
-     * @example <caption>Using a Secret Box with AEAD Encryption</caption>
+     * @example &lt;caption>Using a Secret Box with AEAD Encryption&lt;/caption>
      * let aead = new SeaSalt_AEAD_XChaCha();
      * let secretbox = new SeaSalt_AEAD_SecretBox();
      * secretbox.create('mygreatpassword1', aead.key());
@@ -537,7 +574,7 @@ class SeaSalt_AEAD_SecretBox {
         if ( this.box ) return this.box;
 
         //  enforce any minimum password strength
-        if ( this.tools.passwordStrength(userPassword) < this.config.minimumStrength ) throw "Supplied password does not meet the minimum strength requirements.";
+        if ( this.tools.passwordStrength(userPassword) &lt; this.config.minimumStrength ) throw "Supplied password does not meet the minimum strength requirements.";
 
         //  parse the box contents into a string
         if ( typeof secretItem === 'boolean' ) secretItem = ( secretItem === false ) ? "false" : "true";
@@ -584,8 +621,8 @@ class SeaSalt_AEAD_SecretBox {
      */
     repackage(box, userPassword, newPassword) {
 
-        if ( !box && !this.box ) throw "Secret box must be provided for repackaging.";
-        if ( box && userPassword && !newPassword ) {
+        if ( !box &amp;&amp; !this.box ) throw "Secret box must be provided for repackaging.";
+        if ( box &amp;&amp; userPassword &amp;&amp; !newPassword ) {
 
             if ( !this.box ) throw "Secret box must be provided for repackaging.";
             newPassword = userPassword;
@@ -597,7 +634,7 @@ class SeaSalt_AEAD_SecretBox {
         if ( !box || !userPassword || !newPassword ) throw "Required arguments are missing";
 
         //  enforce any minimum password strength
-        if ( this.tools.passwordStrength(newPassword) < this.config.minimumStrength ) return;
+        if ( this.tools.passwordStrength(newPassword) &lt; this.config.minimumStrength ) return;
 
         //  open the box
         let contents = this.aead.decrypt(box, userPassword);
@@ -628,8 +665,8 @@ class SeaSalt_AEAD_SecretBox {
      */
     check(box, userPassword, secretItem) {
 
-        if ( !box && !this.box ) throw "Secret box must be provided for checking.";
-        if ( box && !userPassword ) {
+        if ( !box &amp;&amp; !this.box ) throw "Secret box must be provided for checking.";
+        if ( box &amp;&amp; !userPassword ) {
 
             if ( !this.box ) throw "Secret box must be provided for repackaging.";
             userPassword = box;
@@ -639,15 +676,15 @@ class SeaSalt_AEAD_SecretBox {
 
         if ( !box || !userPassword  ) throw "Required arguments are missing";
 
-        if ( secretItem && typeof secretItem === 'boolean' ) secretItem = ( secretItem === false ) ? "false" : "true";
-        if ( secretItem && typeof secretItem === 'number' ) secretItem = secretItem.toString();
-        if ( secretItem && typeof secretItem === 'object' ) secretItem = JSON.stringify(secretItem, true, 5);
-        if ( secretItem && typeof secretItem !== 'string' ) return false;
+        if ( secretItem &amp;&amp; typeof secretItem === 'boolean' ) secretItem = ( secretItem === false ) ? "false" : "true";
+        if ( secretItem &amp;&amp; typeof secretItem === 'number' ) secretItem = secretItem.toString();
+        if ( secretItem &amp;&amp; typeof secretItem === 'object' ) secretItem = JSON.stringify(secretItem, true, 5);
+        if ( secretItem &amp;&amp; typeof secretItem !== 'string' ) return false;
 
         let contents = this.aead.decrypt(box, userPassword);
         return (
             (
-                secretItem &&
+                secretItem &amp;&amp;
                 contents === secretItem
             ) ||
             typeof contents === 'string'
@@ -680,7 +717,7 @@ class SeaSalt_AEAD_XChaCha {
      */
     constructor(string, secret, box, config) {
 
-        if ( (typeof box === 'object' || typeof secret === 'object') && typeof config === 'undefined' ) {
+        if ( (typeof box === 'object' || typeof secret === 'object') &amp;&amp; typeof config === 'undefined' ) {
 
             if ( typeof secret === 'object' ) {
                 config = secret;
@@ -688,7 +725,7 @@ class SeaSalt_AEAD_XChaCha {
                 box = undefined;
             }
 
-            if ( typeof box === 'object' && !(box instanceof SeaSalt_AEAD_SecretBox) ) {
+            if ( typeof box === 'object' &amp;&amp; !(box instanceof SeaSalt_AEAD_SecretBox) ) {
                 config = box;
                 box = undefined;
             }
@@ -718,7 +755,7 @@ class SeaSalt_AEAD_XChaCha {
         this.tools = new SeaSalt_Tools;
 
         //  load any secretbox
-        if ( box instanceof SeaSalt_AEAD_SecretBox && box.box ) this.box = box.box;
+        if ( box instanceof SeaSalt_AEAD_SecretBox &amp;&amp; box.box ) this.box = box.box;
         if ( typeof box === 'string' ) this.box = box;
 
         //  run encryption if string is provided
@@ -739,12 +776,12 @@ class SeaSalt_AEAD_XChaCha {
      * Using a secret box allows you to let a user change passwords without needing to rewrite all encrypted data.
      *
      * See {@link SeaSalt_AEAD_SecretBox} for more information.
-     * @example <caption>Basic Usage</caption>
+     * @example &lt;caption>Basic Usage&lt;/caption>
      * let aead = new SeaSalt_AEAD_XChaCha();
      * aead.encrypt('Hello world', 'mybestsecretevar33');
      *
      * //  ciphertext in aead.ciphertext reads: 00002c4cdbf646c1bba6c3f543a104e78555069f3bf5ca09fc5b66c7201eca012d10f01cdf49c15654ec418f7cac0cd5a6b1d0
-     * @example <caption>Secret Box Usage</caption>
+     * @example &lt;caption>Secret Box Usage&lt;/caption>
      * //  this time we'll use a secret box
      * let secretbox = new {@link SeaSalt_AEAD_SecretBox}('mybestsecretevar33', aead.key());
      * aead.encrypt('Hello world', 'mybestsecretevar33', secretbox);
@@ -756,10 +793,10 @@ class SeaSalt_AEAD_XChaCha {
         if ( !string || !secret ) throw 'SeaSalt_AEAD_XChaCha::encrypt requires a string or secret to encrypt';
 
         //  it's the box-box
-        if ( typeof box === 'undefined' && this.box ) box = this.box;
-        if ( box instanceof SeaSalt_AEAD_SecretBox && typeof box.box === 'string' ) {
+        if ( typeof box === 'undefined' &amp;&amp; this.box ) box = this.box;
+        if ( box instanceof SeaSalt_AEAD_SecretBox &amp;&amp; typeof box.box === 'string' ) {
             box = box.box;
-        } else if ( box && typeof box !== 'string' ) throw 'SeaSalt_AEAD_XChacha::decrypt supplied SecretBox is invalid';
+        } else if ( box &amp;&amp; typeof box !== 'string' ) throw 'SeaSalt_AEAD_XChacha::decrypt supplied SecretBox is invalid';
 
         //  open a box to obtain the secret key
         if ( typeof box === 'string' ) {
@@ -800,13 +837,13 @@ class SeaSalt_AEAD_XChaCha {
      * Using a secret box allows you to let a user change passwords without needing to rewrite all encrypted data.
      *
      * See {@link SeaSalt_AEAD_SecretBox} for more information.
-     * @example <caption>Basic Usage</caption>
+     * @example &lt;caption>Basic Usage&lt;/caption>
      * //  using the result from the example at keychain.{@link SeaSalt_AEAD_XChaCha#encrypt encrypt}
      * let aead = new SeaSalt_AEAD_XChaCha();
      * aead.decrypt('00002c4cdbf646c1bba6c3f543a104e78555069f3bf5ca09fc5b66c7201eca012d10f01cdf49c15654ec418f7cac0cd5a6b1d0', 'mybestsecretevar33');
      *
      * //  returns a string like: Hello world
-     * @example <caption>Secret Box Usage</caption>
+     * @example &lt;caption>Secret Box Usage&lt;/caption>
      * //  this time we'll use a secret box
      * let secretbox = new {@link SeaSalt_AEAD_SecretBox}('mybestsecretevar33', aead.key());
      * aead.encrypt('Hello world', 'mybestsecretevar33', secretbox);
@@ -821,10 +858,10 @@ class SeaSalt_AEAD_XChaCha {
         }
 
         //  it's the box-box
-        if ( typeof box === 'undefined' && this.box ) box = this.box;
-        if ( box instanceof SeaSalt_AEAD_SecretBox && typeof box.box === 'string' ) {
+        if ( typeof box === 'undefined' &amp;&amp; this.box ) box = this.box;
+        if ( box instanceof SeaSalt_AEAD_SecretBox &amp;&amp; typeof box.box === 'string' ) {
             box = box.box;
-        } else if ( box && typeof box !== 'string' ) {
+        } else if ( box &amp;&amp; typeof box !== 'string' ) {
             console.error('SeaSalt_AEAD_XChacha::decrypt supplied SecretBox is invalid');
             return;
         }
@@ -945,7 +982,7 @@ class SeaSalt_Tools {
             alpha: 'abcdefghijklmnopqrstuvwxyz',
             caps: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
             numeric: '0123456789',
-            symbols: '[];\',./<>?:"{}\\|!@#$%^&*()-=_+`~'
+            symbols: '[];\',./&lt;>?:"{}\\|!@#$%^&amp;*()-=_+`~'
         };
 
         var pool = '';
@@ -956,7 +993,7 @@ class SeaSalt_Tools {
         if ( pool.length === 0 ) return;
 
         var string = '';
-        for (var i = 0; i < length; i++) string += pool.charAt(Math.floor(Math.random() * pool.length));
+        for (var i = 0; i &lt; length; i++) string += pool.charAt(Math.floor(Math.random() * pool.length));
         return string;
 
     }
@@ -984,15 +1021,15 @@ class SeaSalt_Tools {
         if ( matches.numeric = password.match(/[0-9]/g) ) strength++;
 
         //  symbol chars
-        if ( matches.symbol = password.match(/[-!$%^&*()_+|~=`{}\[\]:#";'@<>?,.\/]/g) ) strength++;
+        if ( matches.symbol = password.match(/[-!$%^&amp;*()_+|~=`{}\[\]:#";'@&lt;>?,.\/]/g) ) strength++;
 
         //  calculate entropy
         cat = strength;
         let chars = [];
         for ( let i in matches )
             if ( matches.hasOwnProperty(i) )
-                if ( typeof matches[i] === 'object' && matches[i] !== null && matches[i].length )
-                    for ( let x = 0; x < matches[i].length; x++ )
+                if ( typeof matches[i] === 'object' &amp;&amp; matches[i] !== null &amp;&amp; matches[i].length )
+                    for ( let x = 0; x &lt; matches[i].length; x++ )
                         if ( chars.indexOf(matches[i][x].toLowerCase()) === -1 ) chars.push(matches[i][x].toLowerCase());
 
         //  adjust strength calculation
@@ -1001,22 +1038,22 @@ class SeaSalt_Tools {
         if ( chars.length >= this.config.minimumEntropy ) strength = strength++;
 
         //  supplied chars below minimum entropy are heavily penalized
-        if ( chars.length < this.config.minimumEntropy ) strength = strength-3;
+        if ( chars.length &lt; this.config.minimumEntropy ) strength = strength-3;
 
         //  weak strength but extremely long is given a bonus
-        if ( strength === 1 && password.length >= (this.config.minimumKeyLength*2) ) strength++;
+        if ( strength === 1 &amp;&amp; password.length >= (this.config.minimumKeyLength*2) ) strength++;
 
         //  short passwords are penalized
-        if ( password.length < (this.config.minimumKeyLength+4) ) strength--;
+        if ( password.length &lt; (this.config.minimumKeyLength+4) ) strength--;
 
         //  only one type of charset is penalized
         if ( cat === 1 ) strength--;
 
         //  passwords shorter than the minimum length are invalid
-        if ( password.length < this.config.minimumKeyLength ) strength = 0;
+        if ( password.length &lt; this.config.minimumKeyLength ) strength = 0;
 
         //  return strength out of a maximum of 4
-        if ( strength < 0 ) strength = 0;
+        if ( strength &lt; 0 ) strength = 0;
         if ( strength > 4 ) strength = 4;
         return strength;
 
@@ -1054,7 +1091,7 @@ class SeaSalt_Tools {
  *
  * //  okay, now let's make a new encryption key configuration
  * //  first we need a good, strong password. here we will generate one using SeaSalt_Tools.randomString
- * let password = keychain.tools.randomString(32); // returns a password like: ]IK4,=Qa?3,@@?@AW`N&or_l#eTy+K^:
+ * let password = keychain.tools.randomString(32); // returns a password like: ]IK4,=Qa?3,@@?@AW`N&amp;or_l#eTy+K^:
  *
  * //  next let's create a keychain and provide it a good name
  * let result = keychain.create('My Keychain', password);
@@ -1163,9 +1200,9 @@ class SeaSalt_Tools {
  * @property {boolean} ready - Keychain state
  * @property {Object} keys - Keychain configuration data keychain.{@link SeaSalt_Keychain#keyconf keyconf}
  * @property {Object} history - Stored secret boxes whose configuration has otherwise been deleted
- * @example <caption>Basic Usage</caption>
+ * @example &lt;caption>Basic Usage&lt;/caption>
  * let keychain = new SeaSalt_Keychain();
- * @example <caption>Provide a Configuration</caption>
+ * @example &lt;caption>Provide a Configuration&lt;/caption>
  * let keychain = new SeaSalt_Keychain({
  *     hash: sha256,
  *     recoveryTokenCount: 3,
@@ -1173,7 +1210,7 @@ class SeaSalt_Tools {
  *         prefix: 'mycustom:prefix:'
  *     }
  * });
- * @example <caption>Open key configuration on construction</caption>
+ * @example &lt;caption>Open key configuration on construction&lt;/caption>
  * let keychain = new SeaSalt_Keychain('APxqB8gbHUWn', 'mypassword');
  */
 class SeaSalt_Keychain {
@@ -1227,7 +1264,7 @@ class SeaSalt_Keychain {
         };
 
         //  support constructor passing signature and password before config and data
-        if ( typeof sig === 'string' && typeof password === 'string' ) {
+        if ( typeof sig === 'string' &amp;&amp; typeof password === 'string' ) {
 
             this.config.sig = sig;
             this.config.password = password;
@@ -1286,7 +1323,7 @@ class SeaSalt_Keychain {
         this.ready = true;
         this.log('SeaSalt/Keychain loaded successfully');
 
-        if ( this.config.sig && this.config.password ) {
+        if ( this.config.sig &amp;&amp; this.config.password ) {
 
             try {
                 this.open(this.config.sig, this.config.password);
@@ -1468,7 +1505,7 @@ class SeaSalt_Keychain {
         });
 
         let codes = {};
-        for ( let i = 0; i < this.config.recoveryTokenCount; i++ ) {
+        for ( let i = 0; i &lt; this.config.recoveryTokenCount; i++ ) {
             let data = this.create_recovery(sig, userPassword);
             this.keys[sig].recovery[this.hash(data.code)] = data.token;
             codes[data.code] = data.token;
@@ -1528,7 +1565,7 @@ class SeaSalt_Keychain {
      */
     export_key(sig) {
 
-        if ( this.ready !== true || (sig !== true && this.listkeys().indexOf(sig || this.active) === -1) ) this.error('Keychain state not ready');
+        if ( this.ready !== true || (sig !== true &amp;&amp; this.listkeys().indexOf(sig || this.active) === -1) ) this.error('Keychain state not ready');
         return JSON.stringify(( sig === true ) ? this.keys : this.keys[sig || this.active], null, 5);
 
     }
@@ -1539,10 +1576,10 @@ class SeaSalt_Keychain {
      * @param {string} [userPassword] - Password for the key configuration
      * @returns {boolean} Returns true or false
      * @description Attempt to read and parse a keychain entry (or open the only existing key if sig omitted)
-     * @example <caption>Basic Usage</caption>
+     * @example &lt;caption>Basic Usage&lt;/caption>
      * let keychain = new SeaSalt_Keychain();
      * keychain.open('aVXT41Qvhkzn', 'mygreatpassword');
-     * @example <caption>Usage with a Single Key Config</caption>
+     * @example &lt;caption>Usage with a Single Key Config&lt;/caption>
      * let keychain = new SeaSalt_Keychain();
      * keychain.open('mygreatpassword');
      */
@@ -1601,11 +1638,11 @@ class SeaSalt_Keychain {
      * @param {string} [newPassword] - New password for the key configuration
      * @returns {boolean} Returns true or false
      * @description Repackages currently opened secret box optionally with a new password
-     * @example <caption>Repackage a secret box without changing the password</caption>
+     * @example &lt;caption>Repackage a secret box without changing the password&lt;/caption>
      * let keychain = new SeaSalt_Keychain();
      * keychain.open('aVXT41Qvhkzn', 'mygreatpassword');
      * keychain.update();
-     * @example <caption>Repackage a secret box and change the password</caption>
+     * @example &lt;caption>Repackage a secret box and change the password&lt;/caption>
      * let keychain = new SeaSalt_Keychain();
      * keychain.open('aVXT41Qvhkzn', 'mygreatpassword');
      * keychain.update('mysuperbetterpassword1');
@@ -1615,7 +1652,7 @@ class SeaSalt_Keychain {
         if ( this.ready !== true || this.listkeys().indexOf(this.active) === -1 ) this.error('Keychain state not ready');
 
         //  if this signature already exists, copy it into the recovery keys
-        if ( typeof newPassword === 'string' && typeof this.keys[this.active] === 'object' ) this.store_history();
+        if ( typeof newPassword === 'string' &amp;&amp; typeof this.keys[this.active] === 'object' ) this.store_history();
 
         //  generate and store the new secretbox
         let passphrase = ( typeof newPassword === 'string' ) ? this.hash(this.hash(newPassword), this.keys[this.active].salt) : undefined;
@@ -1646,7 +1683,7 @@ class SeaSalt_Keychain {
      * @param {string} [box] - Secret box to use for creating the recovery object
      * @returns {Object} Returns an object containing a recovery code and recovery key
      * @description Generates a random code and corresponding secret box
-     * @example <caption>Basic Usage</caption>
+     * @example &lt;caption>Basic Usage&lt;/caption>
      * let keychain = new SeaSalt_Keychain();
      * keychain.create_recovery('aVXT41Qvhkzn', 'mygreatestpasswordyet')
      *
@@ -1655,14 +1692,14 @@ class SeaSalt_Keychain {
      *      "code": "482559516047",
      *      "token": "cd052b20c5dabb034975baae5c17e2b65521c5a9971fac10022874b557653e2f..."
      * }
-     * @example <caption>Providing an Alternate Secret Box</caption>
+     * @example &lt;caption>Providing an Alternate Secret Box&lt;/caption>
      * //  let's say we want to use the first key stored in the key history
      * let keychain = new SeaSalt_Keychain();
      * keychain.create_recovery('aVXT41Qvhkzn', 'mygreatestpasswordyet', keychain.keys.aVXT41Qvhkzn.history[0])
      */
     create_recovery(sig, userPassword, box) {
 
-        if ( !box && (typeof this.keys[sig || this.active] !== 'object' || typeof userPassword !== 'string') ) this.error('Invalid arguments');
+        if ( !box &amp;&amp; (typeof this.keys[sig || this.active] !== 'object' || typeof userPassword !== 'string') ) this.error('Invalid arguments');
         let passphrase = this.hash(this.hash(userPassword), this.keys[sig || this.active].salt);
         let code = this.tools.randomString(this.config.recoveryTokenLength, false, false, true, false);
         let token = (new SeaSalt_AEAD_SecretBox()).repackage(box || this.keys[sig || this.active].box, passphrase, this.hash(this.hash(code), this.keys[sig || this.active].salt));
@@ -1680,10 +1717,10 @@ class SeaSalt_Keychain {
      * @param {string | Array} [boxes] - Box or boxes to try validating against
      * @returns {Array} Returns an array of all matching secret boxes
      * @description Check supplied code against all known or provided secret boxes
-     * @example <caption>Basic Usage</caption>
+     * @example &lt;caption>Basic Usage&lt;/caption>
      * let keychain = new SeaSalt_Keychain();
      * keychain.find_recovery('aVXT41Qvhkzn', '482559516047');
-     * @example <caption>Providing an Alternate Secret Box</caption>
+     * @example &lt;caption>Providing an Alternate Secret Box&lt;/caption>
      * //  in this case, let's say you are able to provide a copy of the recovery code and token
      * let keychain = new SeaSalt_Keychain();
      * keychain.find_recovery('aVXT41Qvhkzn', '482559516047', 'cd052b20c5dabb034975baae5c17e2b65521c5a9971fac10022874b557653e2f...');
@@ -1761,9 +1798,9 @@ class SeaSalt_Keychain {
      * @function
      * @param {string} key - Storage key name to modify
      * @returns {string} Returns a string containing the new storage key name
-     * @description Converts a key to the encrypted-format key with format: <span style="color: red">prefix</span>:<span style="color: green">key signature</span>:<span style="color: blue">key format</span>:<span style="color: orange">encrypted storage key</span>
+     * @description Converts a key to the encrypted-format key with format: &lt;span style="color: red">prefix&lt;/span>:&lt;span style="color: green">key signature&lt;/span>:&lt;span style="color: blue">key format&lt;/span>:&lt;span style="color: orange">encrypted storage key&lt;/span>
      *
-     * Example: <span style="color: red">seasalt:keychain</span>:<span style="color: green">FaWDuAFuZlyRg6IG</span>:<span style="color: blue">0</span>:<span style="color: orange">a8c0b162cacd0cb76803da4c5eb0269e...</span>
+     * Example: &lt;span style="color: red">seasalt:keychain&lt;/span>:&lt;span style="color: green">FaWDuAFuZlyRg6IG&lt;/span>:&lt;span style="color: blue">0&lt;/span>:&lt;span style="color: orange">a8c0b162cacd0cb76803da4c5eb0269e...&lt;/span>
      *
      * The encrypted storage key is a hash of the provided key and the private keysalt.
      * @example
@@ -1791,7 +1828,7 @@ class SeaSalt_Keychain {
         try {
             jsdoc = JSON.parse(jsdoc);
         } catch(e) {}
-        if ( typeof jsdoc === 'object' && jsdoc.keysalt ) return jsdoc.keysalt;
+        if ( typeof jsdoc === 'object' &amp;&amp; jsdoc.keysalt ) return jsdoc.keysalt;
         this.error('Failed to locate keysalt');
 
     }
@@ -1841,7 +1878,7 @@ class SeaSalt_Keychain {
      * @param {string} key - Storage key to read
      * @returns {string | undefined} Returns the decryption result data
      * @description Read and decrypt a string from storage
-     * @example <caption>Basic Usage</caption>
+     * @example &lt;caption>Basic Usage&lt;/caption>
      * let keychain = new SeaSalt_Keychain('aVXT41Qvhkzn', 'mygreatpassword33');
      * keychain.read('mystoragekey1');
      *
@@ -1912,11 +1949,11 @@ class SeaSalt_Keychain {
      * @param {boolean} [history] - Whether or not to delete history data for this key configuration
      * @param {boolean} [purge] - Whether or not to purge all key data storage
      * @description Destroys a key signature by deleting it from the keychain
-     * @example <caption>Basic Usage</caption>
+     * @example &lt;caption>Basic Usage&lt;/caption>
      * //  destroy the key configuration but do not delete the history or storage data
      * let keychain = new SeaSalt_Keychain();
      * keychain.destroy('aVXT41Qvhkzn');
-     * @example <caption>Advanced Usage</caption>
+     * @example &lt;caption>Advanced Usage&lt;/caption>
      * //  destroy the key configuration, history and storage data
      * keychain.destroy('aVXT41Qvhkzn', true, true);
      *
@@ -1962,11 +1999,11 @@ class SeaSalt_Keychain {
      * @param {boolean} [history=false] - Whether or not to erase all associated history data
      * @returns {object | undefined} Returns an object listing all deleted key signatures and storage keys
      * @description Purge data from the keychain and storage
-     * @example <caption>Basic Usage</caption>
+     * @example &lt;caption>Basic Usage&lt;/caption>
      * //  delete all storage data for specified key configuration
      * let keychain = new SeaSalt_Keychain();
      * keychain.purge('aVXT41Qvhkzn', false, true);
-     * @example <caption>Advanced Usage</caption>
+     * @example &lt;caption>Advanced Usage&lt;/caption>
      * //  delete storage and key configuration data
      * keychain.purge('aVXT41Qvhkzn', true, true);
      *
@@ -1981,7 +2018,7 @@ class SeaSalt_Keychain {
      */
     purge(sig, all, confirm, reverse, history) {
 
-        if ( typeof this.keys[sig] !== 'object' && all !== true ) this.error('Signature does not exist');
+        if ( typeof this.keys[sig] !== 'object' &amp;&amp; all !== true ) this.error('Signature does not exist');
         if ( this.config.storage.enabled !== true ) {
             this.log('SeaSalt/Keychain is bypassing a purge request because localStorage is turned off');
             return;
@@ -1994,12 +2031,12 @@ class SeaSalt_Keychain {
 
             if ( reverse === true ) {
                 return (
-                    key.indexOf(self.config.storage.prefix) > -1 &&
-                    key.indexOf('keyring') === -1 &&
+                    key.indexOf(self.config.storage.prefix) > -1 &amp;&amp;
+                    key.indexOf('keyring') === -1 &amp;&amp;
                     key.indexOf(sig) === -1
                 );
             } else {
-                return ( key.indexOf(self.config.storage.prefix) > -1 && key.indexOf(sig) > -1 );
+                return ( key.indexOf(self.config.storage.prefix) > -1 &amp;&amp; key.indexOf(sig) > -1 );
             }
 
         });
@@ -2010,14 +2047,14 @@ class SeaSalt_Keychain {
             self.config.storage.delete(key);
             let regex = new RegExp('^' + self.config.storage.prefix + '([a-zA-Z0-9]*):[0-9]*?:.*$');
             let matches = key.match(regex);
-            if ( matches !== null && sigs.indexOf(matches[1]) === -1 ) sigs.push(matches[1]);
+            if ( matches !== null &amp;&amp; sigs.indexOf(matches[1]) === -1 ) sigs.push(matches[1]);
         });
 
         this.log('SeaSalt/Keychain purged storage keys: ' + JSON.stringify(keys));
 
         //  find all detectable signatures if we're doing a reverse purge
         if ( reverse === true ) Object.keys(this.keys).filter(function(csig) {
-            if ( csig !== sig && sigs.indexOf(csig) === -1 ) sigs.push(csig);
+            if ( csig !== sig &amp;&amp; sigs.indexOf(csig) === -1 ) sigs.push(csig);
         });
 
         //  destroy all detected signatures
@@ -2031,7 +2068,7 @@ class SeaSalt_Keychain {
         }
 
         //  reset keychain state if active signature was destroyed
-        if ( all === true && sigs.indexOf(this.active) > -1 ) this.close();
+        if ( all === true &amp;&amp; sigs.indexOf(this.active) > -1 ) this.close();
 
         return {
             storage: keys,
@@ -2083,3 +2120,25 @@ class SeaSalt_Keychain {
 }
 
 //  AES-256-GCM not supported in browser library
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc" target="_blank">JSDoc 3.5.5</a> on 10/5/2018 using the <a href="https://github.com/Grafluxe/boxy-jsdoc-template" target="_blank">boxy-jsdoc-template</a> theme.
+</footer>
+
+<script src="scripts/prettify/prettify.js"></script>
+<script src="scripts/prettify/lang-css.js"></script>
+<script src="scripts/script.js"></script>
+
+</body>
+</html>

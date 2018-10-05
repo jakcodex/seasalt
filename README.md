@@ -6,6 +6,8 @@ A simple Javascript class making Libsodium easier to use.
 
 See it in action here: <a href="https://jakcodex.github.io/seasalt/seasalt.html">https://jakcodex.github.io/seasalt/seasalt.html</a>
 
+You can find a full reference guide available in the [docs](https://jakcodex.github.io/seasalt/docs/).
+
 ## Example
 
 #### AEAD Encryption
@@ -75,7 +77,8 @@ let box = new SeaSalt_AEAD_SecretBox(userPassword);
 let k1 = new SeaSalt_AEAD_XChacha('My secret message', userPassword, box);
 let decrypted = k1.decrypt(
     k1.ciphertext,
-    userPassword
+    userPassword,
+    box
 );
 ```
 
@@ -90,6 +93,14 @@ let decrypted2 = k1.decrypt(
     newbox
 );
 ```
+
+#### SeaSalt Keychain
+
+Create and manage one or more encryption keys using a fully featured keychain. Provides access to both direct string encryption as well as a fully encrypted localStorage API.
+
+This class is not interfaced in SeaSalt_Common because by default it sets up a stored configuration.
+
+Check out the detailed [docs](https://jakcodex.github.io/seasalt/docs/SeaSalt_Keychain.html) for more information.
 
 #### Test Password Strength
 
