@@ -67,7 +67,7 @@
  * ###### __{@link SeaSalt_Tools}__
  * Handy tools and gadgets.
  *
- * @version 0.2
+ * @version 0.4
  * @author Jakcodex / Jakisaurus
  * @see {@link https://github.com/jakcodex/seasalt GitHub}
  * @see {@link https://github.com/jedisct1/libsodium.js Libsodium.js}
@@ -108,11 +108,6 @@ class SeaSalt_Common {
      * @param {object} [config] - User configuration
      */
     constructor(config) {
-
-        this.version = {
-            major: 0,
-            minor: 3
-        };
 
         this.config = {
             algorithm: 'xchacha',
@@ -1190,7 +1185,7 @@ class SeaSalt_Tools {
  * @property {boolean} [config.debug=false] - Whether or not SeaSalt_Keychain is running in debugging mode
  * @property {string} [config.hash=sha512] - Hashing algorithm to use (sha256, sha512)
  * @property {number} [config.keysaltLength=8] - Length of the private key salt for hashing
- * @property {boolean} [config.lock=false] - Lock open keychains to try preventing write conflicts
+ * @property {boolean} [config.lock=true] - Lock open keychains to try preventing write conflicts
  * @property {function} [config.log] - Function for handling logging calls
  * @property {number} [config.maxRecoveryAge] - Maximum length of time in milliseconds to keep a recovery key before automatically deleting it
  * @property {number} [config.maxRecoveryPoints=5] - Maximum number of recovery keys to keep per signature
