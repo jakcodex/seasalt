@@ -30,7 +30,7 @@
  * ###### __{@link SeaSalt_Tools}__
  * Handy tools and gadgets.
  *
- * @version 0.2
+ * @version 0.4
  * @author Jakcodex / Jakisaurus
  * @see {@link https://github.com/jakcodex/seasalt GitHub}
  * @see {@link https://github.com/jedisct1/libsodium.js Libsodium.js}
@@ -71,11 +71,6 @@ class SeaSalt_Common {
      * @param {object} [config] - User configuration
      */
     constructor(config) {
-
-        this.version = {
-            major: 0,
-            minor: 3
-        };
 
         this.config = {
             algorithm: 'xchacha',
@@ -1096,7 +1091,7 @@ class SeaSalt_Tools {
  * let storagekey = keychain.{@link SeaSalt_Keychain#write write}('my storage key', original);
  *
  * //  the storage key name you specify is encrypted according to keychain.{@link SeaSalt_Keychain#key key}(key)
- * //  in this case, the key might look like seasalt:keychain:APxqB8gbHUWn:0:17771942b10497dc9d3a7f81b46e7cee2149f08dfed943a61562c7b69886d1b5...
+ * //  in this case, the key might look like seasalt:keychain:DpfXY1eKueSUXt4a:0:17771942b10497dc9d3a7f81b46e7cee2149f08dfed943a61562c7b69886d1b5...
  * //  and the storage contents might look like: ae47fab647c46d3693c287cee088f9997d57996e73155a6d58191775611f22c4...
  *
  * //  later you decide to read the file
@@ -1153,6 +1148,7 @@ class SeaSalt_Tools {
  * @property {boolean} [config.debug=false] - Whether or not SeaSalt_Keychain is running in debugging mode
  * @property {string} [config.hash=sha512] - Hashing algorithm to use (sha256, sha512)
  * @property {number} [config.keysaltLength=8] - Length of the private key salt for hashing
+ * @property {boolean} [config.lock=false] - Lock open keychains to try preventing write conflicts
  * @property {function} [config.log] - Function for handling logging calls
  * @property {number} [config.maxRecoveryAge] - Maximum length of time in milliseconds to keep a recovery key before automatically deleting it
  * @property {number} [config.maxRecoveryPoints=5] - Maximum number of recovery keys to keep per signature
@@ -1163,7 +1159,9 @@ class SeaSalt_Tools {
  * @property {number} [config.recoveryTokenLength=12] - Length of the recovery code
  * @property {number} [config.saltLength=8] - Length of the public salt for hashing
  * @property {number} [config.signatureLength=12] - Length of generates key signatures
+ * @property {boolean} [config.readonly=false] - Operate in read-only mode
  * @property {Object} [config.storage] - Storage API bindings and settings (custom methods must interface localStorage)
+ * @property {boolean} [config.storage.checksums=true] - Whether or not to record storage content checksums
  * @property {boolean} [config.storage.enabled=true] - Whether or not to enable localStorage.
  *
  * Setting this to `false` will disable keychain.{@link SeaSalt_Keychain#read read}, keychain.{@link SeaSalt_Keychain#write write}, keychain.{@link SeaSalt_Keychain#purge purge}, and keychain.{@link SeaSalt_Keychain#rekey rekey}.
@@ -1176,6 +1174,7 @@ class SeaSalt_Tools {
  * @property {boolean} ready - Keychain state
  * @property {Object} keys - Keychain configuration data keychain.{@link SeaSalt_Keychain#keyconf keyconf}
  * @property {Object} history - Stored secret boxes whose configuration has otherwise been deleted
+ * @property {string} runtimeId - Runtime ID for the new keychain instance
  * @example <caption>Basic Usage</caption>
  * let keychain = new SeaSalt_Keychain();
  * @example <caption>Provide a Configuration</caption>
@@ -1187,7 +1186,7 @@ class SeaSalt_Tools {
  *     }
  * });
  * @example <caption>Open key configuration on construction</caption>
- * let keychain = new SeaSalt_Keychain('APxqB8gbHUWn', 'mypassword');
+ * let keychain = new SeaSalt_Keychain('DpfXY1eKueSUXt4a', 'mypassword');
  */
 class SeaSalt_Keychain {
 
@@ -1196,9 +1195,8 @@ class SeaSalt_Keychain {
      * @param {Object | string} [sig] - Key signature or initial config
      * @param {string} [password] - Key password or keychain data
      * @param {Object} [config] - User configuration
-     * @param {string} [data] - Keychain data
      */
-    constructor(sig, password, config, data) {
+    constructor(sig, password, config) {
 
         if ( typeof sig === 'object' ) {
 
@@ -1221,10 +1219,14 @@ class SeaSalt_Keychain {
             signatureLength: 16,
             saltLength: 8,
             keysaltLength: 8,
+            lock: true,
+            lockSessionTtl: 14400000,
             minimumEntropy: 6,
             minimumKeyLength: 6,
             minimumStrength: 1,
+            readonly: false,
             storage: {
+                checksums: true,
                 enabled: true,
                 prefix: 'seasalt:keychain:',
                 includeMeta: false,
@@ -1271,40 +1273,33 @@ class SeaSalt_Keychain {
             }
         };
 
+        //  import keychain data
+        let regex = new RegExp('^' + this.config.storage.prefix + '([a-zA-Z0-9]*?):keyconf$');
+        this.keys = {};
+        this.config.storage.list().filter(function(key) {
+
+            let matches = key.match(regex);
+            if ( matches === null ) return;
+            let data;
+            try {
+                data = JSON.parse(self.config.storage.read(key));
+            } catch(e) {
+                return;
+            }
+
+            self.keys[matches[1]] = data;
+
+        });
+
         this.aead = new SeaSalt_AEAD_XChaCha();
         this.tools = new SeaSalt_Tools(config);
-        this.ready = false;
-        this.keys = {};
         this.history = {};
         this.enabled = true;
         this.active = undefined;
         this.keysalt = '0xk*S#x9';
-
-        //  if no keychain is provided let's try to load it ourselves
-        if ( typeof data !== 'string' ) try {
-            data = this.config.storage.read(this.config.storage.prefix + 'keyring');
-        } catch(e) {}
-
-        //  try loading the keychain
-        if ( typeof data === 'string' ) {
-
-            let keychain;
-            try {
-                keychain = JSON.parse(data);
-            } catch (e) {}
-            if ( typeof keychain === 'object' ) {
-
-                this.log('SeaSalt/Keychain loading stored keychain from localStorage');
-                Object.keys(keychain).filter(function (key) {
-                    self[key] = keychain[key];
-                });
-
-            }
-
-        }
-
+        this.runtimeId = this.tools.randomString(12, true, true, true, false);
         this.ready = true;
-        this.log('SeaSalt/Keychain loaded successfully');
+        this.log('SeaSalt/Keychain initialized successfully');
 
         if ( this.config.sig && this.config.password ) {
 
@@ -1356,25 +1351,25 @@ class SeaSalt_Keychain {
      * @function
      * @param {string} key - Storage key name to modify
      * @returns {string} Returns a string containing the new storage key name
-     * @description Converts a key to the encrypted-format key with format: <span style="color: red">prefix</span>:<span style="color: green">key signature</span>:<span style="color: blue">key format</span>:<span style="color: orange">encrypted storage key</span>
+     * @description Converts a key to the encrypted-format key with format: <span style="color: red">prefix</span>:<span style="color: green">key signature</span>:<span style="color: hotpink">type</span>:<span style="color: blue">format</span>:<span style="color: purple">mode</span>:<span style="color: orange">encrypted storage key</span>
      *
-     * Example: <span style="color: red">seasalt:keychain</span>:<span style="color: green">FaWDuAFuZlyRg6IG</span>:<span style="color: blue">0</span>:<span style="color: orange">a8c0b162cacd0cb76803da4c5eb0269e...</span>
+     * Example: <span style="color: red">seasalt:keychain</span>:<span style="color: green">DpfXY1eKueSUXt4a</span>:<span style="color: hotpink">storage</span>:<span style="color: blue">0</span>:<span style="color: purple">1</span>:<span style="color: orange">a8c0b162cacd0cb76803da4c5eb0269e...</span>
      *
      * The encrypted storage key is a hash of the provided key and the private keysalt.
      * @example
      * let keychain = new SeaSalt_Keychain();
      * keychain.key('my storage key');
      *
-     * //  returns a string like: seasalt:keychain:aVXT41Qvhkzn:0:a8c0b162cacd0cb76803da4c5eb0269e...
+     * //  returns a string like: seasalt:keychain:DpfXY1eKueSUXt4a:storage:0:1:aaac25a086bc3a30063ff2fd9fb4e3df5a9fbca2da9bfa02e0d0d216d447c0c7...
      */
     key(key) {
 
-        if ( this.ready !== true || this.listkeys().indexOf(this.active) === -1 ) this.error('Keychain state not ready');
+        if ( this.ready !== true || typeof this.keys[this.active] !== 'object' ) this.error('Keychain state not ready');
         let enckey;
         if ( this.keys[this.active].mode === 0 ) enckey = this.hash(key, this.keysalt, 'sha256');
         if ( this.keys[this.active].mode === 1 ) enckey = this.hash(key, this.keysalt, 'sha512');
         if ( typeof enckey !== 'string' ) enckey = this.hash(key, this.keysalt);
-        return this.config.storage.prefix + this.active + ':' + this.keys[this.active].format + ':' + this.keys[this.active].mode + ':' + enckey;
+        return this.config.storage.prefix + this.active + ':storage:' + this.keys[this.active].format + ':' + this.keys[this.active].mode + ':' + enckey;
 
     }
 
@@ -1436,6 +1431,56 @@ class SeaSalt_Keychain {
 
     /**
      * @function
+     * @description Change the lock state of the key signature in localStorage
+     * @param {boolean} state Lock (`true`) or unlock (`false`) the keychain
+     * @param {boolean} [force=false] Force the action
+     */
+    lock(state, force) {
+
+        if ( this.ready !== true || typeof this.keys[this.active] !== 'object' ) this.error('Keychain state not ready');
+        if ( force !== true && this.config.readonly === true ) this.error('Keychain is in read-only mode');
+        if ( this.config.storage.enabled !== true ) this.error('LocalStorage is not enabled');
+
+        let lockfile;
+        let lockkey = this.config.storage.prefix + this.active + ':lock';
+
+        //  read the lock file first
+        try {
+            lockfile = JSON.parse(this.config.storage.read(lockkey));
+        } catch (e) {}
+
+        //  if forced, no lockfile found, or runtimeIds match, or runtimeId doesn't exist, create the lock file
+        if (
+            force === true ||
+            lockfile === null ||
+            typeof lockfile !== 'object' ||
+            !lockfile.runtimeId ||
+            lockfile.runtimeId === this.runtimeId ||
+            (Date.now() - lockfile.date) > this.config.lockSessionTtl
+        ) {
+
+            if ( state === true ) lockfile = {
+                date: Date.now(),
+                runtimeId: this.runtimeId
+            };
+            if ( state === false ) lockfile = {};
+            try {
+                this.config.storage.write(lockkey, JSON.stringify(lockfile));
+            } catch (e) {
+                this.log('Encountered storage API error: ' + e);
+                return false;
+            }
+            return true;
+
+        }
+
+        this.log('Encountered active lock file: ' + JSON.stringify(lockfile));
+        return false;
+
+    }
+
+    /**
+     * @function
      * @param {...*} arg - Arguments to forward to logging handler
      * @description Forwards logging requests to the configured log handler
      */
@@ -1452,39 +1497,20 @@ class SeaSalt_Keychain {
      */
     save() {
 
-        if ( this.config.storage.enabled !== true ) {
-            this.log('SeaSalt/Keychain is bypassing a save request because localStorage is turned off');
-            return true;
-        }
+        if ( this.ready !== true ) this.error('Keychain state not ready');
+        if ( this.config.readonly === true ) this.error('Keychain is in read-only mode');
+        if ( this.config.storage.enabled !== true ) this.error('LocalStorage is not enabled');
+        if ( typeof this.keys[this.active] !== 'object' ) this.error('Keychain state not ready');
 
         try {
-
-            this.config.storage.write(this.config.storage.prefix + 'keyring', this.toJSON());
-            this.log('SeaSalt/Keychain successfully wrote keychain to localStorage');
-
+            this.config.storage.write(this.config.storage.prefix + this.active + ':keyconf', JSON.stringify(this.keys[this.active]));
         } catch(e) {
-            this.log('SeaSalt/Keychain failed to write keychain to localStorage');
-            this.log(e);
+            this.log('SeaSalt/Keychain failed to write keyconf to localStorage: ' + e);
             return false;
         }
 
+        this.log('SeaSalt/Keychain successfully wrote config to localStorage');
         return true;
-
-    }
-
-    /**
-     * @function
-     * @param {boolean} [pretty=false] - Display in JSON pretty print
-     * @returns {string} JSON object of keychain data
-     * @description Convert the keychain into a JSON object for storage
-     */
-    toJSON(pretty) {
-
-        return JSON.stringify({
-            keys: this.keys,
-            history: this.history,
-            enabled: this.enabled
-        }, null, ( pretty === true ) ? 5 : undefined);
 
     }
 
@@ -1510,6 +1536,7 @@ class SeaSalt_Keychain {
      */
     close() {
 
+        if ( this.config.lock === true ) this.lock(false);
         this.active = undefined;
         this.passphrase = undefined;
         this.keysalt = undefined;
@@ -1546,7 +1573,7 @@ class SeaSalt_Keychain {
      *
      * //  returns an object like
      * {
-     *      "sig": "aVXT41Qvhkzn",
+     *      "sig": "DpfXY1eKueSUXt4a",
      *      "codes": {
      *           "333400752028": "8db9a168853bfa778b510f93b99f8783ba48f0b7a8a7c31eaf317437dc9f22b4...",
      *           "686119075418": "6ccc93ea0679919986391ec327f7414587ff75641157532ddb736dcbca4498f4..."
@@ -1555,6 +1582,8 @@ class SeaSalt_Keychain {
      */
     create(userPassword, config) {
 
+        if ( this.ready !== true ) this.error('Keychain state not ready');
+        if ( this.config.readonly === true ) this.error('Keychain is in read-only mode');
         if ( this.tools.passwordStrength(userPassword) < this.config.minimumStrength ) this.error('Password does not meet minimum strength requirements');
         if ( typeof config !== 'object' ) config = {};
         let mode = config.mode;
@@ -1606,7 +1635,7 @@ class SeaSalt_Keychain {
      * keychain.export_key();
      *
      * //  export a specific key configuration
-     * keychain.export_key('aVXT41Qvhkzn');
+     * keychain.export_key('DpfXY1eKueSUXt4a');
      */
     export_key(sig, raw) {
 
@@ -1631,11 +1660,12 @@ class SeaSalt_Keychain {
      * keychain.import_key('{"format":0,"mode":1,"box":"158754f8531b75aa1a9f40bbdf45551ef8144c48224bed5aa1bc083a7ab2a8ed...');
      *
      * //  import the configuration and overwrite an existing key signature
-     * keychain.import_key('{"format":0,"mode":1,"box":"158754f8531b75aa1a9f40bbdf45551ef8144c48224bed5aa1bc083a7ab2a8ed...', 'aVXT41Qvhkzn', true);
+     * keychain.import_key('{"format":0,"mode":1,"box":"158754f8531b75aa1a9f40bbdf45551ef8144c48224bed5aa1bc083a7ab2a8ed...', 'DpfXY1eKueSUXt4a', true);
      */
     import_key(data, sig, confirm, force) {
 
         if ( this.ready !== true ) this.error('Keychain state not ready');
+        if ( this.config.readonly === true ) this.error('Keychain is in read-only mode');
         if ( typeof sig === 'string' && confirm !== true ) this.error('You must confirm requests that overwrite existing key configurations or use custom signatures');
         if ( typeof sig === 'string' && !this.keys[sig] && force !== true ) this.error('Key signature does not exist');
         if ( typeof sig !== 'string' ) sig = (new SeaSalt_Tools()).randomString(this.config.signatureLength, true, true, true, false);
@@ -1692,6 +1722,7 @@ class SeaSalt_Keychain {
         }
 
         if ( this.ready !== true || (sig !== true && this.listkeys().indexOf(sig || this.active) === -1) ) this.error('Keychain state not ready');
+        if ( this.config.readonly === true ) this.error('Keychain is in read-only mode');
         if ( typeof config !== 'object' || Object.keys(config).length === 0 ) this.error('Invalid user configuration provided');
         let restricted = ['box', 'salt', 'mode'];
         let forbidden = ['recovery', 'history', 'format'];
@@ -1726,7 +1757,7 @@ class SeaSalt_Keychain {
      * @description Attempt to read and parse a keychain entry (or open the only existing key if sig omitted)
      * @example <caption>Basic Usage</caption>
      * let keychain = new SeaSalt_Keychain();
-     * keychain.open('aVXT41Qvhkzn', 'mygreatpassword');
+     * keychain.open('DpfXY1eKueSUXt4a', 'mygreatpassword');
      * @example <caption>Usage with a Single Key Config</caption>
      * let keychain = new SeaSalt_Keychain();
      * keychain.open('mygreatpassword');
@@ -1763,6 +1794,10 @@ class SeaSalt_Keychain {
         this.active = sig;
         this.passphrase = passphrase;
         this.keysalt = this.get_keysalt();
+
+        // set readonly mode if lock fails
+        if ( this.config.lock === true && this.lock(true) === false ) this.config.readonly = true;
+
         this.log('SeaSalt/Keychain opened key with signature: ' + sig);
         return true;
 
@@ -1771,15 +1806,17 @@ class SeaSalt_Keychain {
     /**
      * @function
      * @param {string} [sig] - Key configuration signature
+     * @param {boolean} [skipSave=false] - Skip automatic save
      * @returns {boolean} Returns true or false
      * @description Stores the specified key signature or loaded key signature's secret box in the recovery chain.
      */
-    store_history(sig) {
+    store_history(sig, skipSave) {
 
         if ( this.ready !== true || this.listkeys().indexOf(sig || this.active) === -1 ) this.error('Keychain state not ready');
+        if ( this.config.readonly === true ) this.error('Keychain is in read-only mode');
         if ( this.keys[sig || this.active].history.indexOf(this.keys[sig || this.active].box) > -1 ) return true;
         this.keys[sig || this.active].history.push(this.keys[sig || this.active].box);
-        return this.save();
+        return ( skipSave === true ) ? true : this.save();
 
     }
 
@@ -1790,17 +1827,17 @@ class SeaSalt_Keychain {
      * @description Repackages currently opened secret box optionally with a new password
      * @example <caption>Repackage a secret box without changing the password</caption>
      * let keychain = new SeaSalt_Keychain();
-     * keychain.open('aVXT41Qvhkzn', 'mygreatpassword');
+     * keychain.open('DpfXY1eKueSUXt4a', 'mygreatpassword');
      * keychain.update();
      * @example <caption>Repackage a secret box and change the password</caption>
      * let keychain = new SeaSalt_Keychain();
-     * keychain.open('aVXT41Qvhkzn', 'mygreatpassword');
+     * keychain.open('DpfXY1eKueSUXt4a', 'mygreatpassword');
      * keychain.update('mysuperbetterpassword1');
      */
     update(newPassword) {
 
-        if ( this.ready !== true || this.listkeys().indexOf(this.active) === -1 ) this.error('Keychain state not ready');
-
+        if ( this.ready !== true || typeof this.keys[this.active] !== 'object' ) this.error('Keychain state not ready');
+        if ( this.config.readonly === true ) this.error('Keychain is in read-only mode');
         if ( this.tools.passwordStrength(newPassword) < this.config.minimumStrength ) this.error('Password does not meet minimum strength requirements');
 
         //  if this signature already exists, copy it into the recovery keys
@@ -1825,7 +1862,7 @@ class SeaSalt_Keychain {
      * @description Generates a random code and corresponding secret box
      * @example <caption>Basic Usage</caption>
      * let keychain = new SeaSalt_Keychain();
-     * keychain.create_recovery('aVXT41Qvhkzn', 'mygreatestpasswordyet')
+     * keychain.create_recovery('DpfXY1eKueSUXt4a', 'mygreatestpasswordyet')
      *
      * //  returns an object like
      * {
@@ -1835,10 +1872,12 @@ class SeaSalt_Keychain {
      * @example <caption>Providing an Alternate Secret Box</caption>
      * //  let's say we want to use the first key stored in the key history
      * let keychain = new SeaSalt_Keychain();
-     * keychain.create_recovery('aVXT41Qvhkzn', 'mygreatestpasswordyet', keychain.keys.aVXT41Qvhkzn.history[0])
+     * keychain.create_recovery('DpfXY1eKueSUXt4a', 'mygreatestpasswordyet', keychain.keys.DpfXY1eKueSUXt4a.history[0])
      */
     create_recovery(sig, userPassword, box) {
 
+        if ( this.ready !== true ) this.error('Keychain state not ready');
+        if ( this.config.readonly === true ) this.error('Keychain is in read-only mode');
         let hash = false;
         if ( typeof userPassword === 'undefined' ) hash = true;
         if ( hash === true && sig !== this.active ) this.error('Passphrase can only be used with opened keys');
@@ -1862,11 +1901,11 @@ class SeaSalt_Keychain {
      * @description Check supplied code against all known or provided secret boxes
      * @example <caption>Basic Usage</caption>
      * let keychain = new SeaSalt_Keychain();
-     * keychain.find_recovery('aVXT41Qvhkzn', '482559516047');
+     * keychain.find_recovery('DpfXY1eKueSUXt4a', '482559516047');
      * @example <caption>Providing an Alternate Secret Box</caption>
      * //  in this case, let's say you are able to provide a copy of the recovery code and token
      * let keychain = new SeaSalt_Keychain();
-     * keychain.find_recovery('aVXT41Qvhkzn', '482559516047', 'cd052b20c5dabb034975baae5c17e2b65521c5a9971fac10022874b557653e2f...');
+     * keychain.find_recovery('DpfXY1eKueSUXt4a', '482559516047', 'cd052b20c5dabb034975baae5c17e2b65521c5a9971fac10022874b557653e2f...');
      */
     find_recovery(sig, code, boxes) {
 
@@ -1905,12 +1944,14 @@ class SeaSalt_Keychain {
      * @description Installs the provided secret box (or the first valid in an array) to the specified key and resets a new password
      * @example
      * let keychain = new SeaSalt_Keychain();
-     * let recoveryboxes = keychain.{@link SeaSalt_Keychain#find_recovery find_recovery}('aVXT41Qvhkzn', '482559516047');
-     * keychain.restore_recovery('aVXT41Qvhkzn', '482559516047', recoveryboxes, 'mysuperdupernewpassword');
+     * let recoveryboxes = keychain.{@link SeaSalt_Keychain#find_recovery find_recovery}('DpfXY1eKueSUXt4a', '482559516047');
+     * keychain.restore_recovery('DpfXY1eKueSUXt4a', '482559516047', recoveryboxes, 'mysuperdupernewpassword');
      */
     restore_recovery(sig, code, boxes, newPassword) {
 
-        if ( typeof this.keys[sig] !== 'object' ) this.error('Invalid signature');
+        if ( this.ready !== true ) this.error('Keychain state not ready');
+        if ( this.config.readonly === true ) this.error('Keychain is in read-only mode');
+        if ( this.listkeys().indexOf(sig) === -1 ) this.error('Invalid signature');
         if ( typeof boxes === 'string' ) boxes = [boxes];
         if ( !Array.isArray(boxes) ) this.error('Supplied box is not valid');
         if ( this.tools.passwordStrength(newPassword) < this.config.minimumStrength ) this.error('Password does not meet minimum strength requirements');
@@ -1928,13 +1969,13 @@ class SeaSalt_Keychain {
 
         if ( typeof secretbox !== 'string' ) return false;
 
-        this.store_history(sig);
         this.active = sig;
         this.passphrase = passphrase;
         this.ready = true;
+        this.store_history(sig, true);
         this.keys[sig].box = secretbox;
         this.keysalt = this.get_keysalt();
-        return true;
+        return this.save();
 
     }
 
@@ -1964,14 +2005,14 @@ class SeaSalt_Keychain {
      * @description Decrypt a provided ciphertext using the loaded key
      * @example
      * let keychain = new SeaSalt_Keychain();
-     * keychain.open('aVXT41Qvhkzn', 'mygreatpassword33');
+     * keychain.open('DpfXY1eKueSUXt4a', 'mygreatpassword33');
      * keychain.decrypt('1a0a8965c5995dbfbb9e32706805e0d7c3bcdd080107d8929cb36f358af25825eb82cab9e2ce38363ed6f3e999b785e1823185a8ce4272ac');
      *
      * //  using the example from keychain.{@link SeaSalt_Keychain#encrypt encrypt} the result would be: My secret string
      */
     decrypt(ciphertext) {
 
-        if ( this.ready !== true || this.listkeys().indexOf(this.active) === -1 ) this.error('Keychain state not ready');
+        if ( this.ready !== true || typeof this.keys[this.active] !== 'object' ) this.error('Keychain state not ready');
         return (new SeaSalt_AEAD_XChaCha()).decrypt(ciphertext, this.passphrase, this.keys[this.active].box);
 
     }
@@ -1985,14 +2026,14 @@ class SeaSalt_Keychain {
      * Encryption utilizes AEAD with nonces. The same string and key will never result in the same ciphertext twice.
      * @example
      * let keychain = new SeaSalt_Keychain();
-     * keychain.open('aVXT41Qvhkzn', 'mygreatpassword33');
+     * keychain.open('DpfXY1eKueSUXt4a', 'mygreatpassword33');
      * keychain.encrypt('My secret string');
      *
      * //  returns a string like: 1a0a8965c5995dbfbb9e32706805e0d7c3bcdd080107d8929cb36f358af25825eb82cab9e2ce38363ed6f3e999b785e1823185a8ce4272ac
      */
     encrypt(string) {
 
-        if ( this.ready !== true || this.listkeys().indexOf(this.active) === -1 ) this.error('Keychain state not ready');
+        if ( this.ready !== true || typeof this.keys[this.active] !== 'object' ) this.error('Keychain state not ready');
         return (new SeaSalt_AEAD_XChaCha()).encrypt(string, this.passphrase, this.keys[this.active].box);
 
     }
@@ -2004,14 +2045,14 @@ class SeaSalt_Keychain {
      * @returns {string | undefined} Returns the decryption result data
      * @description Read and decrypt a string from storage
      * @example <caption>Basic Usage</caption>
-     * let keychain = new SeaSalt_Keychain('aVXT41Qvhkzn', 'mygreatpassword33');
+     * let keychain = new SeaSalt_Keychain('DpfXY1eKueSUXt4a', 'mygreatpassword33');
      * keychain.read('mystoragekey1');
      *
      * //  using the example from keychain.{@link SeaSalt_Keychain#write write} the result would be: Hello world
      */
     read(key, meta) {
 
-        if ( this.ready !== true || this.listkeys().indexOf(this.active) === -1 ) this.error('Keychain state not ready');
+        if ( this.ready !== true || typeof this.keys[this.active] !== 'object' ) this.error('Keychain state not ready');
         if ( this.config.storage.enabled !== true ) {
             this.log('SeaSalt/Keychain is bypassing a read request because localStorage is turned off');
             return;
@@ -2037,15 +2078,15 @@ class SeaSalt_Keychain {
      * @function
      * @description Read the file meta data for a provided storage key.
      * @param {string} key - Storage key to read. Can be either a plaintext key name or encrypted storage key name
-     * @param {string} [name=key] - Meta key to read
+     * @param {string} [name=all] - Meta key to read
      * @returns {string | boolean} Returns the decrypted meta key data from the storage key or false on error
      */
     read_meta(key, name) {
 
-        if ( this.ready !== true || this.listkeys().indexOf(this.active) === -1 ) this.error('Keychain state not ready');
-        if ( typeof name !== 'string' ) name = 'key';
+        if ( this.ready !== true || typeof this.keys[this.active] !== 'object' ) this.error('Keychain state not ready');
+        if ( typeof name !== 'string' ) name = '*';
         let data;
-        let regex = new RegExp('^' + this.config.storage.prefix + this.active + ':.*$');
+        let regex = new RegExp('^' + this.config.storage.prefix + this.active + ':storage:.*$');
         if ( key.match(regex) === null ) key = this.key(key);
         try {
             data = JSON.parse(this.decrypt(this.config.storage.read(key)));
@@ -2067,16 +2108,17 @@ class SeaSalt_Keychain {
      *
      * See keychain.{@link SeaSalt_Keychain#key key} for information regarding the returned key format.
      * @example <caption>Basic Usage</caption>
-     * let keychain = new SeaSalt_Keychain('aVXT41Qvhkzn', 'mygreatpassword33');
+     * let keychain = new SeaSalt_Keychain('DpfXY1eKueSUXt4a', 'mygreatpassword33');
      * keychain.write('mystoragekey1', 'Hello world');
      *
-     * //  returns a string like: seasalt:keychain:aVXT41Qvhkzn:0:44f3ef019ab2cd691a7d102cf8471d0d43f95d7c5582568885a4975c91a0ecb9...
+     * //  returns a string like: seasalt:keychain:DpfXY1eKueSUXt4a:0:44f3ef019ab2cd691a7d102cf8471d0d43f95d7c5582568885a4975c91a0ecb9...
      * @example <caption>Setting Metadata</caption>
      * keychain.write('mystoragekey1', '"{"mykey":true}"', {filetype: 'text/json'});
      */
     write(key, value, meta) {
 
-        if ( this.ready !== true || this.listkeys().indexOf(this.active) === -1 ) this.error('Keychain state not ready');
+        if ( this.ready !== true || typeof this.keys[this.active] !== 'object' ) this.error('Keychain state not ready');
+        if ( this.config.readonly === true ) this.error('Keychain is in read-only mode');
         if ( this.config.storage.enabled !== true ) {
             this.log('SeaSalt/Keychain is bypassing a write request because localStorage is turned off');
             return false;
@@ -2084,6 +2126,10 @@ class SeaSalt_Keychain {
         if ( typeof key !== 'string' || typeof value !== 'string' ) this.error('Arguments not valid');
         if ( typeof meta !== 'object' ) meta = {};
 
+        if ( this.config.storage.checksums === true ) meta.checksum = {
+            sha256: (new SeaSalt_Hashing(value, 'sha256')).hex,
+            sha512: (new SeaSalt_Hashing(value, 'sha512')).hex
+        };
         meta.key = key;
         meta.size = value.length;
         if ( !meta.filetype ) meta.filetype = 'text/plain';
@@ -2114,20 +2160,34 @@ class SeaSalt_Keychain {
     /**
      * @function
      * @description Searches for orphaned data in the keychain and storage.
-     * @param {Array | string} config - Array of areas to check
+     * @param {Array | string} config - String or array containing areas to check.
+     *
+     * Possible values are: history, mode, storage, all
      * @param {boolean} [scan=false] - Scan only; do not delete matches
      * @returns {Object} Returns an object identifying orphaned items
      * ```js
      * {
-     *     "mode": [],
      *     "history": [],
+     *     "mode": [],
      *     "storage": []
      * }
      * ```
+     * @example <caption>Clean a Single Item</caption>
+     * let keychain = new SeaSalt_Keychain();
+     * keychain.clean('storage');
+     * @example <caption>Clean a Multiple Items</caption>
+     * let keychain = new SeaSalt_Keychain();
+     * keychain.clean(['storage', 'mode']);
+     *
+     * //  or all items
+     * keychain.clean('all');
      */
     clean(config, scan) {
 
+        if ( this.ready !== true ) this.error('Keychain state not ready');
+        if ( this.config.readonly === true ) this.error('Keychain is in read-only mode');
         if ( this.config.storage.enabled === false ) this.error('Clean requires that local storage be enabled.');
+        if ( config === 'all' ) config = ['mode', 'history', 'storage'];
         if ( typeof config === 'string' ) config = [config];
         if ( typeof config === 'undefined' ) config = [];
         if ( !Array.isArray(config) ) this.error('Invalid configuration provided');
@@ -2144,7 +2204,7 @@ class SeaSalt_Keychain {
 
             this.config.storage.list().filter(function(key) {
 
-                let regex = new RegExp('^' + self.config.storage.prefix + '([a-zA-Z0-9]*):[0-9]*?:([0-9]*?):.*$');
+                let regex = new RegExp('^' + self.config.storage.prefix + '([a-zA-Z0-9]*):storage:[0-9]*?:([0-9]*?):.*$');
                 let matches = key.match(regex);
                 if ( matches === null ) return;
 
@@ -2201,10 +2261,10 @@ class SeaSalt_Keychain {
      * @example <caption>Basic Usage</caption>
      * //  destroy the key configuration but do not delete the history or storage data
      * let keychain = new SeaSalt_Keychain();
-     * keychain.destroy('aVXT41Qvhkzn');
+     * keychain.destroy('DpfXY1eKueSUXt4a');
      * @example <caption>Advanced Usage</caption>
      * //  destroy the key configuration, history and storage data
-     * keychain.destroy('aVXT41Qvhkzn', true, true);
+     * keychain.destroy('DpfXY1eKueSUXt4a', true, true);
      *
      * //  destroy all key configurations and data
      * keychain.destroy(true, true);
@@ -2220,11 +2280,12 @@ class SeaSalt_Keychain {
         }
 
         if ( this.ready !== true || this.listkeys().indexOf(sig || this.active) === -1 ) throw 'Signature does not exist or keychain is not ready';
+        if ( this.config.readonly === true ) this.error('Keychain is in read-only mode');
         if ( history !== true ) this.history[sig || this.active] = this.keys[sig || this.active];
         delete this.keys[sig || this.active];
+        this.config.storage.delete(this.config.storage.prefix + (sig || this.active) + ':keyconf');
         if ( purge === true ) this.purge(sig || this.active, false, true);
         if ( sig === undefined || sig === this.active ) this.close();
-        return this.save();
 
     }
 
@@ -2240,27 +2301,30 @@ class SeaSalt_Keychain {
      * @example <caption>Basic Usage</caption>
      * //  delete all storage data for specified key configuration
      * let keychain = new SeaSalt_Keychain();
-     * keychain.purge('aVXT41Qvhkzn', false, true);
+     * keychain.purge('DpfXY1eKueSUXt4a', false, true);
      * @example <caption>Advanced Usage</caption>
      * //  delete storage and key configuration data
-     * keychain.purge('aVXT41Qvhkzn', true, true);
+     * keychain.purge('DpfXY1eKueSUXt4a', true, true);
      *
      * //  delete storage, key configuration, and history data
-     * keychain.purge('aVXT41Qvhkzn', true, true, false, true);
+     * keychain.purge('DpfXY1eKueSUXt4a', true, true, false, true);
      *
      * //  delete all storage data for keys other than the one specified
-     * keychain.purge('aVXT41Qvhkzn', false, true, true);
+     * keychain.purge('DpfXY1eKueSUXt4a', false, true, true);
      *
      * //  delete all data
      * keychain.purge(undefined, true, true);
      */
     purge(sig, all, confirm, reverse, history) {
 
-        if ( typeof this.keys[sig] !== 'object' && all !== true ) this.error('Signature does not exist');
+        if ( this.ready !== true ) this.error('Keychain state not ready');
+        if ( this.config.readonly === true ) this.error('Keychain is in read-only mode');
         if ( this.config.storage.enabled !== true ) {
             this.log('SeaSalt/Keychain is bypassing a purge request because localStorage is turned off');
             return;
         }
+        if ( this.listkeys().indexOf(sig) === -1 && all !== true ) this.error('Signature does not exist');
+
         if ( typeof all !== 'boolean' ) this.error('Invalid arguments');
         if ( confirm !== true ) this.error('You must confirm this action in the third argument');
 
@@ -2283,7 +2347,7 @@ class SeaSalt_Keychain {
         let sigs = [];
         keys.filter(function(key) {
             self.config.storage.delete(key);
-            let regex = new RegExp('^' + self.config.storage.prefix + '([a-zA-Z0-9]*):[0-9]*?:[0-9]*?:.*$');
+            let regex = new RegExp('^' + self.config.storage.prefix + '([a-zA-Z0-9]*):([a-z]*):[0-9]*?:[0-9]*?:.*$');
             let matches = key.match(regex);
             if ( matches !== null && sigs.indexOf(matches[1]) === -1 ) sigs.push(matches[1]);
         });
@@ -2333,7 +2397,8 @@ class SeaSalt_Keychain {
      */
     rekey(confirm) {
 
-        if ( this.ready !== true || this.listkeys().indexOf(this.active) === -1 ) this.error('Keychain state not ready');
+        if ( this.ready !== true || typeof this.keys[this.active] !== 'object' ) this.error('Keychain state not ready');
+        if ( this.config.readonly === true ) this.error('Keychain is in read-only mode');
         if ( this.config.storage.enabled !== true ) {
             this.log('SeaSalt/Keychain is bypassing a rekey request because localStorage is turned off');
             return;
@@ -2369,7 +2434,7 @@ class SeaSalt_Keychain {
         let error = [];
         let modified = this.config.storage.list().filter(function(key) {
 
-            let regex = new RegExp('(' + self.active + ')');
+            let regex = new RegExp('(' + self.active + ':storage:)');
             if ( key.match(regex) !== null ) {
 
                 //  read and process file contents
@@ -2437,7 +2502,10 @@ class SeaSalt_Keychain {
      */
     scan(userPassword, newPassword) {
 
-        if ( this.tools.passwordStrength(newPassword) < this.config.minimumStrength ) this.error('Password does not meet minimum strength requirements');
+        if ( this.ready !== true ) this.error('Keychain state not ready');
+        if ( newPassword && this.config.readonly === true ) this.error('Keychain is in read-only mode');
+        if ( newPassword && typeof newPassword === 'string' ) this.error('Password is not valid');
+        if ( newPassword && this.tools.passwordStrength(newPassword) < this.config.minimumStrength ) this.error('Password does not meet minimum strength requirements');
         let self = this;
         let sigs = {};
 
@@ -2497,8 +2565,25 @@ class SeaSalt_Keychain {
      * @description Generates a backup of all Keychain data or just the specified sigs. Requires JSZip dependency.
      *
      * If you're looking to backup just the key configuration see keychain.{@link SeaSalt_Keychain#export_key export_key}.
-     * @param {string | Array} [sigs=keychain.{@link SeaSalt_Keychain#listkeys listkeys}] - Key signature or array of signatures to backup data for
-     * @param {Object} [config] - Backup configuration
+     * @param {string | Array | function | Object} [sigs=keychain.{@link SeaSalt_Keychain#listkeys listkeys}] - Key signature or array of signatures to backup data for. Can also be a shortcut for `config` or `config.callback`.
+     * @param {Object | function} [config] - Backup configuration or shortcut for `config.callback`
+     * @param {boolean} [config.all=false] - Include all keys when running decrypt mode
+     * @param {function} [config.callback] - Callback to send generates Zip file
+     *
+     * ```js
+     * function(content) {
+     *     //  content is zip file
+     * }
+     * ```
+     * @param {Object} [config.sigs] - Decrypt storage data for supplied keys.
+     *
+     * ```js
+     * let config = {sigs: {
+     *     sig1: 'password',
+     *     sig2: 'password',
+     *     ...
+     * }}
+     * ```
      * @returns {JSZip | boolean} Returns an instance of JSZip if no callback is provided in the backup configuration.
      *
      * If a callback is provided, the backup zip file is sent to it.
@@ -2512,13 +2597,45 @@ class SeaSalt_Keychain {
      * keychain.backup(function(content) {
      *    saveAs(content, 'mybackup.zip');
      * });
+     * @example <caption>Decrypt Mode</caption>
+     * //  generate a backup of just the provided signatures
+     * keychain.backup({
+     *    sigs: {
+     *       sig1: 'password',
+     *       sig2: 'password'
+     *    }
+     * });
+     *
+     * //  generate a decrypted backup for the provided signatures but include all other data
+     * keychain.backup({
+     *    sigs: {
+     *       sig1: 'password',
+     *       sig2: 'password'
+     *    },
+     *    all: true
+     * });
      */
     backup(sigs, config) {
+
+        let callback;
+        if ( typeof config === 'object' && typeof config.callback === 'function' ) callback = config.callback;
+        if ( typeof config === 'function' ) callback = config;
+        if ( typeof sigs === 'function' ) {
+
+            callback = sigs;
+            sigs = undefined;
+
+        }
 
         if ( typeof sigs === 'object' && !Array.isArray(sigs) ) {
             config = sigs;
             sigs = undefined;
         }
+
+        if ( typeof config !== 'object' ) config = {};
+        if ( typeof callback === 'function' ) config.callback = callback;
+
+        if ( this.ready !== true ) this.error('Keychain state not ready');
         if ( typeof config !== 'object' ) config = {};
         if ( typeof config.sigs === 'string' || Array.isArray(config.sigs) ) sigs = config.sigs;
         if ( !Array.isArray(config.sigs) && typeof config.sigs === 'object' ) sigs = Object.keys(config.sigs);
@@ -2530,11 +2647,16 @@ class SeaSalt_Keychain {
         let self = this;
         let zip = new JSZip;
 
+        //  add all other signatures if requested
+        if ( config.all === true ) this.listkeys().filter(function(sig) {
+            if ( sigs.indexOf(sig) === -1 ) sigs.push(sig);
+        });
+
         //  process signatures
         sigs.filter(function(sig) {
 
             let close = false;
-            if ( !Array.isArray(config.sigs) && typeof config.sigs === 'object' ) {
+            if ( !Array.isArray(config.sigs) && typeof config.sigs === 'object' && config.sigs[sig] ) {
 
                 //  try to open this key config
                 try {
@@ -2548,20 +2670,22 @@ class SeaSalt_Keychain {
 
             self.config.storage.list().filter(function(key) {
 
-                let regex = new RegExp('^' + self.config.storage.prefix + sig + ':[0-9]*?:[0-9]*?:(.*)$');
-                if ( key.match(regex) === null ) return;
+                let regex = new RegExp('^' + self.config.storage.prefix + sig + ':([a-zA-Z0-9]*)(?::[0-9]*?:[0-9]*?:(.*))?$');
+                let matches = key.match(regex);
+                if ( matches === null ) return;
+
+                let path;
 
                 //  decrypt mode
-                if ( !Array.isArray(config.sigs) && typeof config.sigs === 'object' && config.sigs[sig] && self.active === sig ) {
+                if ( matches[1] === 'storage' && !Array.isArray(config.sigs) && typeof config.sigs === 'object' && config.sigs[sig] && self.active === sig ) {
 
                     let data = self.decrypt(self.config.storage.read(key));
                     try {
                         data = JSON.parse(data);
                     } catch(e) {}
-                    if ( typeof data === 'object' && data.data && data.key ) {
+                    if ( typeof data === 'object' && data.data && data.meta ) {
 
-                        zip.file('keys/' + sig + '/storage/' + data.key + '.file', data.data);
-                        self.close();
+                        zip.file('keys/' + sig + '/' + matches[1] + '/' + data.meta.key.replace(/^(\/)/, '') + '.json', JSON.stringify(data, null, 5));
                         return;
 
                     }
@@ -2569,9 +2693,11 @@ class SeaSalt_Keychain {
                 }
 
                 //  direct mode
-                zip.file('keys/' + sig + '/storage/' + key + '.enc', self.config.storage.read(key));
+                if ( matches[1] !== 'keyconf' ) zip.file('keys/' + sig + '/' + matches[1] + '/' + (matches[2] || key) + '.enc', self.config.storage.read(key));
 
             });
+
+            if ( self.active === sig ) self.close();
 
         });
 
@@ -2597,6 +2723,8 @@ class SeaSalt_Keychain {
      */
     restore(file) {
 
+        if ( this.ready !== true ) this.error('Keychain state not ready');
+        if ( this.config.readonly === true ) this.error('Keychain is in read-only mode');
         return false;
 
     }
